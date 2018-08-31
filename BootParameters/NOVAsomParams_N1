@@ -1,0 +1,3 @@
+do_echo=echo NOVAsom Parameters file loaded;
+uenvcmd=run do_echo;
+

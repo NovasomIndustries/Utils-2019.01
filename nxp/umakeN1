@@ -1,0 +1,16 @@
+#!/bin/sh
+. ../SourceMe64
+. ../version
+
+echo "1" > /tmp/result
+cd /Devel/NOVAsdk${VERSION}/Bootloader/u-boot-novasomN1-2018.03_1.0.5
+make distclean
+make mrproper
+#make ls1012ardb_qspi_defconfig
+make ls1012ardb_qspi_SECURE_BOOT_defconfig
+make -j32
+[ "$?" = "1" ] && exit
+cd /Devel/NOVAsdk${VERSION}/Utils/nxp
+./pbl_parser -f /Devel/NOVAsdk${VERSION}/Bootloader/u-boot-novasomN1-2018.03_1.0.5/u-boot-dtb.bin
+echo "0" > /tmp/result
+

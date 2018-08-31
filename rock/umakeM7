@@ -1,0 +1,20 @@
+#!/bin/sh
+. ../SourceMe64
+HERE=`pwd`
+BOOT_M7="../../Bootloader/u-boot-novasomM7-2017.09"
+echo "1" > /tmp/result
+cd ${BOOT_M7}
+make distclean
+[ "$?" != "0" ] && exit
+make mrproper
+[ "$?" != "0" ] && exit
+./make.sh rk3328
+cp ${HERE}/rk322xh_miniloader_v2.46.bin .
+cp ${HERE}/rk3328_ddr_333MHz_v1.13.bin .
+./do_idbloader.sh
+[ "$?" != "0" ] && exit
+cp idbloader.img ../../Blobs/rk3328-idbloader.img
+cp uboot.img ../../Blobs//rk3328-uboot.img
+cp trust.img ../../Blobs/rk3328-trust.img
+cd ../../Deploy
+echo "0" > /tmp/result

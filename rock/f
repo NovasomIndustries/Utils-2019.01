@@ -1,0 +1,15 @@
+#!/bin/bash
+DISK="/dev/sdb"
+sudo dd if=disk.img of=${DISK} bs=1M
+sync
+sudo mkfs.vfat ${DISK}4
+sudo mkfs.ext4 ${DISK}5
+sudo rm -rf tmp
+sudo mkdir tmp
+sudo mount -t vfat ${DISK}4 tmp
+sudo cp ../../Kernel/linux-4.4.143_M7/arch/arm64/boot/Image ${LOOP_DEVICE}p4
+sudo cp ../../Kernel/linux-4.4.143_M7/arch/arm64/boot/dts/rockchip/rk3328-evb.dtb ${LOOP_DEVICE}p4/dtb.dtb
+sudo umount tmp
+sync
+
+

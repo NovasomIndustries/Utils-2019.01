@@ -1,0 +1,46 @@
+#!/bin/sh
+# $1 = kernel
+# $2 = source me file
+. ../version
+
+KERNEL=$1
+SOURCEMEFILE=$2
+#LAYERSCAPE="linux-4.14.47_layerscape"
+LAYERSCAPE="linux-4.9.105_layerscape"
+echo "Working on ${KERNEL} with ${SOURCEMEFILE}"
+echo "1" > /tmp/result
+. ../${SOURCEMEFILE}
+cd ../../Kernel/${KERNEL}
+if [ "$KERNEL" = "linux-imx_4.1.15_1.2.0_ga" ]; then
+	make -j32 zImage
+	[ ! "$?" = "0" ] && exit
+	cp arch/arm/boot/zImage /Devel/NOVAsdk${VERSION}/Blobs/linux-nxp_p-4.1.15.2_zImage
+	make -j32 modules
+	[ ! "$?" = "0" ] && exit
+	cd ../../Deploy
+	rm p_zImage
+	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image p_zImage
+elif [ "$KERNEL" = "$LAYERSCAPE" ]; then
+	make -j32 Image
+	[ ! "$?" = "0" ] && exit
+	make -j32 modules
+	[ ! "$?" = "0" ] && exit
+	make freescale/fsl-ls1012a-rdb.dtb
+	make freescale/fsl-ls1012a-frdm.dtb
+	make freescale/novasomn1-ls1012a.dtb
+	mkimage -A arm -O linux  -C none -n "linux" -a 0x80080000 -d arch/arm64/boot/Image uImage
+	cp uImage /Devel/NOVAsdk${VERSION}/Blobs/${LAYERSCAPE}_uImage
+	cd ../../Deploy
+	rm p_Image
+	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image p_uImage
+else
+	make -j32 zImage
+	[ ! "$?" = "0" ] && exit
+	make -j32 modules
+	[ ! "$?" = "0" ] && exit
+	cp arch/arm/boot/zImage /Devel/NOVAsdk${VERSION}/Blobs/linux-nxp_u-4.1.43_zImage
+	cd ../../Deploy
+	rm u_Image
+	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image u_uImage
+fi
+echo "0" > /tmp/result

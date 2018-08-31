@@ -1,0 +1,120 @@
+#!/bin/sh
+# ${1} is number of user partition
+# ${2} is size of first user partition, if enabled
+# ${3} is size of second user partition, if enabled
+# ${4} is the device
+# ${5} is the dtb
+# ${6} is the NOVAsomParams file
+# ${7} is the ramdisk size
+# ./Uflash - 0 0 /dev/sdb"
+
+. ./functions
+. ../version
+
+#THE_KERNEL="linux-4.14.47_layerscape_1.0.5"
+THE_KERNEL="linux-4.9.105_layerscape_1.0.5"
+KERNEL="/Devel/NOVAsdk${VERSION}/Kernel/${THE_KERNEL}/uImage"
+UINITRD="/Devel/NOVAsdk${VERSION}/Deploy/uInitrd"
+DISK=${4}
+DTB=${5}
+STATICDTB="/Devel/NOVAsdk${VERSION}/Kernel/${THE_KERNEL}/arch/arm64/boot/dts/freescale/novasomn1-ls1012a.dtb"
+NOVASOMPARAMS="/Devel/NOVAsdk${VERSION}/Utils/BootParameters/$6"
+DEPLOY_DIR="/Devel/NOVAsdk${VERSION}/Deploy"
+RAMDISK_SIZE="$7"
+
+echo "1" > /tmp/result
+FILES="$KERNEL $DTB $UINITRD $NOVASOMPARAMS"
+for i in ${FILES}; do
+        if ! [ -f ${i} ]; then
+                echo "File ${i} not found"
+                exit
+        fi
+done
+
+if [ ! -b ${DISK} ]; then
+	echo "${DISK} not found"
+	exit
+fi
+sudo umount ${DISK}* >/dev/null 2>&1
+echo "Writing NOVAsomU uSD"
+sudo sgdisk -Z ${DISK} >/dev/null 2>&1
+sleep 1
+sudo dd if=/dev/zero of=${DISK} bs=4M count=1; sync
+sleep 1
+
+format_usd ${1} ${2} ${3} ${DISK}
+sleep 1
+echo y | sudo mkfs.vfat -F 16 ${DISK}1 -n BOOT 
+RET=$?
+echo "mkfs.vfat returned $RET"
+if ! [ "$?" = "0" ]; then
+	echo "mkfs.vfat with error $RET"
+	exit
+fi
+
+echo y | sudo mkfs.ext3 -t ext3 -L N1Config ${DISK}3
+RET=$?
+echo "mkfs.ext3 returned $RET"
+if ! [ "$?" = "0" ]; then
+	echo "mkfs.ext3 with error $RET"
+	exit
+fi
+
+if [ "${1}" = "1" ]; then
+	echo y | sudo sudo mkfs.ext3 -t ext3 -L N1user1 ${DISK}2
+	RET=$?
+	echo "mkfs.ext3 returned $RET"
+	if ! [ "$?" = "0" ]; then
+		echo "mkfs.ext3 with error $RET"
+		exit
+	fi
+fi
+
+if [ "${1}" = "2" ]; then
+	echo y | sudo sudo mkfs.ext3 -t ext3 -L N1user1 ${DISK}4
+	RET=$?
+	echo "mkfs.ext3 returned $RET"
+	if ! [ "$?" = "0" ]; then
+		echo "mkfs.ext3 with error $RET"
+		exit
+	fi
+	echo y | sudo mkfs.ext3 -t ext3 -L N1user2 ${DISK}4
+	RET=$?
+	echo "mkfs.ext3 returned $RET"
+	if ! [ "$?" = "0" ]; then
+		echo "mkfs.ext3 with error $RET"
+		exit
+	fi
+fi
+
+sync
+sudo umount tmpmount >/dev/null 2>&1
+rm -rf tmpmount
+mkdir tmpmount
+sleep 1
+sudo mount ${DISK}1 tmpmount
+[ "$?" != "0" ] && exit
+sudo rm -rf tmpmount/*
+[ "$?" != "0" ] && exit
+
+for i in ${FILES}; do
+	echo -n "Copying ${i} ..."
+	sudo cp ${i} tmpmount/.
+	echo "Done"
+done
+NDTB=`basename ${STATICDTB}`
+sudo mv tmpmount/${NDTB}  tmpmount/novasomn1.dtb
+
+echo -n "Copying `basename ${NOVASOMPARAMS}` ..."
+echo "setramsize=setenv rdsize ${RAMDISK_SIZE}" > ${DEPLOY_DIR}/NOVAsomParams
+cat ${NOVASOMPARAMS} >> ${DEPLOY_DIR}/NOVAsomParams
+sudo cp ${DEPLOY_DIR}/NOVAsomParams tmpmount/NOVAsomParams
+[ "$?" != "0" ] && exit
+
+
+sudo umount tmpmount
+sync
+
+echo "0" > /tmp/result
+echo "Write finished succesfully"
+

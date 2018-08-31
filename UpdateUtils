@@ -1,0 +1,28 @@
+#!/bin/sh
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+if [ "$1" = "" ]; then
+	DIR_TO_PULL="Utils"
+else
+	DIR_TO_PULL=$1
+fi
+
+echo ""
+echo "**  Check for remote modified files in ${DIR_TO_PULL} **"
+echo ""
+
+cd /Devel/NOVAsdk${VERSION}/${DIR_TO_PULL}
+gitbin="git -C /Devel/NOVAsdk${VERSION}/${DIR_TO_PULL}"
+$gitbin fetch origin
+COUNTRECV=0;
+if [ $($gitbin rev-parse HEAD)>/dev/null 2>&1 != $($gitbin rev-parse @{u})>/dev/null 2>&1 ]; then
+	printf "  ${RED}Updates in ${DIR_TO_PULL}, downloading ...${NC}"
+	COUNTRECV=1;
+	git pull origin master
+	echo " "
+fi
+printf "${GREEN}SYNC OK${NC} : ${DIR_TO_PULL}"
+exit ${COUNTRECV}
+

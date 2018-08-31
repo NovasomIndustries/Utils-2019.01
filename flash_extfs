@@ -1,0 +1,24 @@
+#!/bin/sh
+DISK=$1
+FS=$2
+DTB_SDL=$3
+DTB_Q=$4
+. ./version
+bzcat ${FS} | sudo dd of=${DISK} bs=4M status=progress
+sync
+if [ "$DTB_SDL" == "" ]; then
+	echo 0 > /tmp/result
+	return 0
+fi
+
+rm -rf ext_tmp
+mkdir ext_tmp
+sudo mount ${DISK}1 ext_tmp
+cp /Devel/NOVAsdk${VERSION}/DtbUserWorkArea/${DTB_SDL} ext_tmp/.
+cp /Devel/NOVAsdk${VERSION}/DtbUserWorkArea/${DTB_Q} ext_tmp/.
+sync
+sudo umount ext_tmp
+sync
+rm -rf ext_tmp
+echo 0 > /tmp/result
+return 0
