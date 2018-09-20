@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mount /dev/mmcblk0p3 /mnt
+mount /dev/mmcblk0p4 /mnt
 if [ -d /mnt/application_storage ]; then
 	cp -r /mnt/application_storage /tmp/.
 fi

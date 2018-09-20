@@ -13,8 +13,8 @@ cp ${HERE}/rk322xh_miniloader_v2.46.bin .
 cp ${HERE}/rk3328_ddr_333MHz_v1.13.bin .
 ./do_idbloader.sh
 [ "$?" != "0" ] && exit
-cp idbloader.img ../../Blobs/rk3328-idbloader.img
-cp uboot.img ../../Blobs//rk3328-uboot.img
-cp trust.img ../../Blobs/rk3328-trust.img
+cp idbloader.img ../../Blobs/m7-idbloader.img
+cp uboot.img ../../Blobs//m7-uboot.img
+cp trust.img ../../Blobs/m7-trust.img
 cd ../../Deploy
 echo "0" > /tmp/result

@@ -1,0 +1,44 @@
+#!/bin/bash
+# ${1} is number of user partition
+# ${2} is size of first user partition, if enabled
+# ${3} is size of second user partition, if enabled
+# ${4} is the device
+# ${5} is the dtb for solo/dl
+# ${6} is the dtb for quad
+# ${7} is the NOVAsomParams file
+# ${8} is the ramdisk size
+
+USERNUM=${1}
+SIZE1=${2}
+SIZE2=${3}
+DISK=${4}
+[ "${DISK}" == "" ] && DISK="/dev/sdb"
+echo -n "Creating basic structure on ${DISK} ... "
+sudo sgdisk -Z ${DISK} > /dev/null 2>&1
+sudo partprobe ${DISK} > /dev/null 2>&1
+echo "Done"
+sync
+sudo sgdisk -n 1::+7M  -c 1:loader1 ${DISK}
+sudo sgdisk -n 2::+4M  -c 2:loader2 ${DISK}
+sudo sgdisk -n 3::+4M  -c 3:trust ${DISK}
+sudo sgdisk -n 8::+64M -c 8:boot ${DISK}
+sudo sgdisk -n 4::+16M -c 4:config ${DISK}
+sudo sgdisk -n 5::     -c 5:rootfs ${DISK}
+sudo sgdisk -A 8:set:2 -t 8:0700 ${DISK}
+sudo partprobe ${DISK} > /dev/null 2>&1
+
+sudo mkfs.vfat ${DISK}8 > /dev/null 2>&1
+sudo mkfs.ext4 ${DISK}5 > /dev/null 2>&1
+sync
+sudo mount ${DISK}8 tmp
+sudo cp ../../Kernel/linux-4.4.143_M7/arch/arm64/boot/Image tmp/.
+sudo cp ../../Kernel/linux-4.4.143_M7/arch/arm64/boot/dts/rockchip/rk3328-evb.dtb tmp/dtb.dtb
+sudo cp ../../Deploy/uInitrd tmp/.
+sudo umount tmp
+echo "Done."
+echo -n "Finishing up ..."
+sync
+echo "Done."
+
+exit
+
