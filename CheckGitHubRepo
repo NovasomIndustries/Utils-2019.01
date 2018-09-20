@@ -1,7 +1,9 @@
 #!/bin/sh
 . ./version
-UPD_ELEMENTS="Bootloader/u-boot-novasomM8-2017.11_${VERSION} Bootloader/u-boot-novasomP-2015.04_${VERSION} Bootloader/u-boot-novasomU-2016.03_${VERSION} Bootloader/u-boot-novasomN1-2017.11_${VERSION} Bootloader/u-boot-novasomM7-2017.09_${VERSION}"
-KERNEL_ELEMENTS="Kernel/linux-imx_4.1.15_1.2.0_ga_${VERSION} Kernel/linux-imx_4.1.43_${VERSION} Kernel/linux-4.11.0-QualcommLinaro_${VERSION} Kernel/linux-4.14.47_layerscape_${VERSION} Kernel/linux-4.4.143_M7_${VERSION}"
+#UPD_ELEMENTS="Bootloader/u-boot-novasomM8-2017.11_${VERSION} Bootloader/u-boot-novasomP-2015.04_${VERSION} Bootloader/u-boot-novasomU-2016.03_${VERSION} Bootloader/u-boot-novasomN1-2017.11_${VERSION} Bootloader/u-boot-novasomM7-2017.09_${VERSION}"
+#KERNEL_ELEMENTS="Kernel/linux-imx_4.1.15_1.2.0_ga_${VERSION} Kernel/linux-imx_4.1.43_${VERSION} Kernel/linux-4.11.0-QualcommLinaro_${VERSION} Kernel/linux-4.14.47_layerscape_${VERSION} Kernel/linux-4.4.143_M7_${VERSION}"
+UPD_ELEMENTS="Bootloader/u-boot-novasomM7-2017.09_${VERSION}"
+KERNEL_ELEMENTS="Kernel/linux-4.4.143_M7_${VERSION}"
 CODE_ELEMENTS="${UPD_ELEMENTS} ${KERNEL_ELEMENTS}"
 DIRS="${UPD_ELEMENTS} ${KERNEL_ELEMENTS} Doc Utils Qt/NOVAembed-${VERSION}"
 
