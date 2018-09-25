@@ -20,11 +20,14 @@ echo "1" > /tmp/result
 cd ../../Kernel/${KERNEL}
 if [ "$KERNEL" = "linux-imx_4.1.15_1.2.0_ga" ]; then
 	! [ -z "${DTS}" ] && cleanup_and_configure
-	make -j32 zImage
+	make -j32 zImage modules
 	[ ! "$?" = "0" ] && exit
+	cd kernel-module-imx-gpu-viv
+	export KERNEL_SRC=..
+	make -j32
+	[ ! "$?" = "0" ] && exit
+	cd ..
 	cp arch/arm/boot/zImage ../../Blobs/linux-nxp_p-4.1.15.2_zImage
-	make -j32 modules
-	[ ! "$?" = "0" ] && exit
 	cd ../../Deploy
 	rm p_zImage
 	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image p_zImage
