@@ -1,6 +1,6 @@
 #!/bin/sh
 VERSION="2019.01"
-UPD_ELEMENTS="\
+BOOT_ELEMENTS="\
 Bootloader/u-boot-novasomM8-2017.11_${VERSION} \
 Bootloader/u-boot-novasomP-2015.04_${VERSION} \
 Bootloader/u-boot-novasomU-2016.03_${VERSION} \
@@ -15,7 +15,13 @@ Kernel/linux-4.14.47_layerscape_${VERSION} \
 Kernel/linux-imx_4.1.15_1.2.0_debian_${VERSION} \
 Kernel/linux-4.4.126_M7_${VERSION}"
 
-CODE_ELEMENTS="${UPD_ELEMENTS} ${KERNEL_ELEMENTS}"
+TOOLS_ELEMENTS="\
+Utils-2019.01 \
+Qt/NOVAembed-2019.01 \
+Doc-2019.01 \
+Xcompiler_2019.01"
+
+CODE_ELEMENTS="${BOOT_ELEMENTS} ${KERNEL_ELEMENTS} ${TOOLS_ELEMENTS}"
 
 gitbin="git -C $1"
 
