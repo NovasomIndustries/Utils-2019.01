@@ -2,15 +2,19 @@
 . ../SourceMe64
 . ../version
 
+HER=`pwd`
+UBOOT="u-boot-novasomN1-2018.03"
 echo "1" > /tmp/result
-cd /Devel/NOVAsdk${VERSION}/Bootloader/u-boot-novasomN1-2018.03_1.0.5
+cd /Devel/NOVAsdk${VERSION}/Bootloader/${UBOOT}
 make distclean
 make mrproper
-#make ls1012ardb_qspi_defconfig
-make ls1012ardb_qspi_SECURE_BOOT_defconfig
+make NOVAsomN1_SECBOOT_defconfig
 make -j32
 [ "$?" = "1" ] && exit
 cd /Devel/NOVAsdk${VERSION}/Utils/nxp
-./pbl_parser -f /Devel/NOVAsdk${VERSION}/Bootloader/u-boot-novasomN1-2018.03_1.0.5/u-boot-dtb.bin
+./pbl_parser -f /Devel/NOVAsdk${VERSION}/Bootloader/${UBOOT}/u-boot-dtb.bin
+cp /Devel/NOVAsdk${VERSION}/Bootloader/${UBOOT}/u-boot-dtb.bin ls1012components/.
+cp /Devel/NOVAsdk${VERSION}/Bootloader/${UBOOT}/u-boot-dtb.bin ../../Blobs/N1_u-boot-dtb.bin
+echo "Done"
 echo "0" > /tmp/result
 

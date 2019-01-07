@@ -5,13 +5,19 @@
 
 KERNEL=$1
 SOURCEMEFILE=$2
-DTS=$3
-LAYERSCAPE="linux-4.9.105_layerscape"
+CONFIG_FILE=$3
+LAYERSCAPE="linux-4.14.47_layerscape"
 
 cleanup_and_configure() {
+	echo "Cleanup"
 	make mrproper
 	make distclean
-	make ${DTS}
+	echo "Config is ${CONFIG_FILE}"
+	if [ "$KERNEL" = "$LAYERSCAPE" ]; then
+		make defconfig lsk_defconfig
+	else
+		make ${CONFIG_FILE}
+	fi
 }
 
 echo "Working on ${KERNEL} with ${SOURCEMEFILE}"
@@ -19,7 +25,7 @@ echo "1" > /tmp/result
 . ../${SOURCEMEFILE}
 cd ../../Kernel/${KERNEL}
 if [ "$KERNEL" = "linux-imx_4.1.15_1.2.0_ga" ]; then
-	! [ -z "${DTS}" ] && cleanup_and_configure
+	! [ -z "${CONFIG_FILE}" ] && cleanup_and_configure
 	make -j32 zImage modules
 	[ ! "$?" = "0" ] && exit
 	cd kernel-module-imx-gpu-viv
@@ -32,21 +38,20 @@ if [ "$KERNEL" = "linux-imx_4.1.15_1.2.0_ga" ]; then
 	rm p_zImage
 	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image p_zImage
 elif [ "$KERNEL" = "$LAYERSCAPE" ]; then
-	! [ -z "${DTS}" ] && cleanup_and_configure
+	! [ -z "${CONFIG_FILE}" ] && cleanup_and_configure
 	make -j32 Image
 	[ ! "$?" = "0" ] && exit
 	make -j32 modules
 	[ ! "$?" = "0" ] && exit
-	make freescale/fsl-ls1012a-rdb.dtb
-	make freescale/fsl-ls1012a-frdm.dtb
-	make freescale/novasomn1-ls1012a.dtb
-	mkimage -A arm -O linux  -C none -n "linux" -a 0x80080000 -d arch/arm64/boot/Image uImage
-	cp uImage ../../Blobs/linux-nxp-n1-4.14.47_uImage
+	make novasis/NOVAsom_N1.dtb
+	cp arch/arm64/boot/Image ../../Blobs/linux-nxp-n1-4.14.47_Image
+	cp arch/arm64/boot/dts/novasis/NOVAsom_N1.dtb ../../Blobs/.
 	cd ../../Deploy
-	rm n1_Image
-	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image n1_uImage
+	rm n1_Image NOVAsom_N1.dtb
+	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image n1_Image
+	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/dts/novasis/NOVAsom_N1.dtb NOVAsom_N1.dtb
 else
-	! [ -z "${DTS}" ] && cleanup_and_configure
+	! [ -z "${CONFIG_FILE}" ] && cleanup_and_configure
 	make -j32 zImage
 	[ ! "$?" = "0" ] && exit
 	make -j32 modules

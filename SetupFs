@@ -2,10 +2,11 @@
 # $1 : file system name
 # $2 : board name
 # $3 : desired configuration
-BR_VERSION="2018.02.4"
+BR_VERSION="2018.2"
 BR="buildroot-${BR_VERSION}"
 BSP_DIR="FsBsp"
 PATCH_DIR="Patches"
+IS_M7=0
 
 . ./version
 
@@ -39,6 +40,10 @@ if [ "${3}" = "" ]; then
 		"N1" )	BUILDROOT_CFG_BASE="N1Class_Buildroot_Base.config"
 				BUSYBOX_CFG_BASE="N1Class_BusyBox_Base.config"
 		;;
+		"M7" )	BUILDROOT_CFG_BASE="M7Class_Buildroot_Base_aarch64.config"
+				BUSYBOX_CFG_BASE="M7Class_BusyBox_Base.config"
+				IS_M7=1
+		;;
 		* ) 		BUILDROOT_CFG_BASE="PClass_Buildroot_Base.config"
 				BUSYBOX_CFG_BASE="PClass_BusyBox_Base.config"
 		;;
@@ -53,6 +58,9 @@ else
 		"N1" ) BUSYBOX_CFG_BASE="N1Class_BusyBox_Base.config"
 		;;
 		"M8") BUSYBOX_CFG_BASE="M8Class_BusyBox_Base.config"
+		;;
+		"M7") BUSYBOX_CFG_BASE="M7Class_BusyBox_Base.config"
+				IS_M7=1
 		;;
 		* ) 	     BUSYBOX_CFG_BASE="PClass_BusyBox_Base.config"
 		;;
@@ -76,6 +84,8 @@ fi
 
 cp /Devel/NOVAsdk${VERSION}/Utils/Configurations/${BUILDROOT_CFG_BASE} .config
 cp /Devel/NOVAsdk${VERSION}/Utils/Configurations/${BUSYBOX_CFG_BASE} BusyBox.config
+[ "$IS_M7" == "1" ] && cp -a /Devel/NOVAsdk${VERSION}/Utils/rock/buildroot_package_rockchip package/rockchip
+[ "$IS_M7" == "1" ] && cp /Devel/NOVAsdk${VERSION}/Utils/rock/Config.in package/.
 
 subst_config "BR2_TARGET_GENERIC_HOSTNAME" ${1}
 subst_config "BR2_TARGET_GENERIC_ISSUE" "Welcome"

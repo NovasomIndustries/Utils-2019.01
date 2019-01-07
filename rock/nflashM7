@@ -30,6 +30,7 @@ sudo partprobe ${DISK} > /dev/null 2>&1
 sudo mkfs.vfat ${DISK}8 > /dev/null 2>&1
 sudo mkfs.ext4 ${DISK}5 > /dev/null 2>&1
 sync
+rm -rf tmp ; mkdir tmp
 sudo mount ${DISK}8 tmp
 sudo cp ../../Kernel/linux-4.4.143_M7/arch/arm64/boot/Image tmp/.
 sudo cp ../../Kernel/linux-4.4.143_M7/arch/arm64/boot/dts/rockchip/rk3328-evb.dtb tmp/dtb.dtb

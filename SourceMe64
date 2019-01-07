@@ -1,5 +1,8 @@
 export ARCH=arm64
 export PATH=$PATH:/Devel/NOVAsdk2019.01/Xcompiler/aarch64-arm-gcc-6.4.0/bin
 export CROSS_COMPILE=aarch64-buildroot-linux-gnu-
+#export ARCH=arm
+#export PATH=$PATH:/Devel/NOVAsdk2019.01/Xcompiler/arm-eabihf-gcc-6.4.0/bin
+#export CROSS_COMPILE=arm-buildroot-linux-gnueabihf-
 export PS1='[SDK64]$ '
 

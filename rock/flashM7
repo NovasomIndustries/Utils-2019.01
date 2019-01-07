@@ -1,0 +1,62 @@
+#!/bin/bash
+# ${1} is number of user partition
+# ${2} is size of first user partition, if enabled
+# ${3} is size of second user partition, if enabled
+# ${4} is the device
+# ${5} is the dtb for solo/dl
+# ${6} is the dtb for quad
+# ${7} is the NOVAsomParams file
+# ${8} is the ramdisk size
+
+USERNUM=${1}
+SIZE1=${2}
+SIZE2=${3}
+DISK=${4}
+NOVASOM_PARAMS=${7}
+RAMDISK_SIZE=${8}
+[ "${DISK}" == "" ] && DISK="/dev/sdb"
+echo -n "Creating basic structure on ${DISK} ... "
+sudo sgdisk -Z ${DISK} > /dev/null 2>&1
+sudo partprobe ${DISK} > /dev/null 2>&1
+echo "Done"
+sync
+echo -n "Creating partitions ... "
+sudo sgdisk -n 1::+7M  -c 1:loader1 ${DISK}  > /dev/null 2>&1
+sudo sgdisk -n 2::+4M  -c 2:loader2 ${DISK}  > /dev/null 2>&1
+sudo sgdisk -n 3::+4M  -c 3:trust ${DISK}  > /dev/null 2>&1
+sudo sgdisk -n 8::+512M -c 8:M7Boot ${DISK}  > /dev/null 2>&1
+sudo sgdisk -n 4::+16M -c 4:config ${DISK}  > /dev/null 2>&1
+sudo sgdisk -n 5::     -c 5:rootfs ${DISK}  > /dev/null 2>&1
+sudo sgdisk -A 8:set:2 -t 8:0700 ${DISK}  > /dev/null 2>&1
+sleep 1
+sync
+sleep 1
+sudo partprobe ${DISK} 
+echo "Done"
+echo -n "Storing boot files ... "
+sudo dd if=../../Bootloader/u-boot-novasomM7-2017.09/idbloader.img of=/dev/sdb seek=64 conv=notrunc  > /dev/null 2>&1
+sudo dd if=../../Bootloader/u-boot-novasomM7-2017.09/uboot.img of=/dev/sdb seek=16384 conv=notrunc  > /dev/null 2>&1
+sudo dd if=../../Bootloader/u-boot-novasomM7-2017.09/trust.img of=/dev/sdb seek=24576 conv=notrunc  > /dev/null 2>&1
+sync
+echo "Done"
+echo -n "Formatting and populating partitions ... "
+yes | sudo mkfs.ext4 ${DISK}4
+yes | sudo mkfs.ext4 ${DISK}5
+yes | sudo mkfs.vfat ${DISK}8
+#sudo mkfs.ext2 ${DISK}8
+sync
+rm -rf tmp ; mkdir tmp
+sudo mount ${DISK}8 tmp > /dev/null 2>&1
+sudo cp ../../Deploy/m7_Image tmp/Image
+sudo cp ../../Deploy/m7_dtb.dtb tmp/dtb.dtb
+sudo cp ../../Deploy/uInitrd tmp/.
+echo "rdsize=${RAMDISK_SIZE}" > NOVAsomParams_Local
+cat NOVAsomParams_M7 >> NOVAsomParams_Local
+sudo cp NOVAsomParams_Local tmp/NOVAsomParams
+sudo umount tmp
+sync
+echo "Done."
+echo -n "Finishing up ..."
+sync
+echo "Done."
+echo "0" > /tmp/result
