@@ -1,0 +1,51 @@
+#!/bin/sh
+VERSION="2019.01"
+UPD_ELEMENTS="\
+Bootloader/u-boot-novasomM8-2017.11_${VERSION} \
+Bootloader/u-boot-novasomP-2015.04_${VERSION} \
+Bootloader/u-boot-novasomU-2016.03_${VERSION} \
+Bootloader/u-boot-novasomN1-2017.11_${VERSION} \
+Bootloader/u-boot-novasomM7-2017.09_${VERSION}"
+
+KERNEL_ELEMENTS="\
+Kernel/linux-imx_4.1.15_1.2.0_ga_${VERSION} \
+Kernel/linux-imx_4.1.43_${VERSION} \
+Kernel/linux-4.11.0-QualcommLinaro_${VERSION} \
+Kernel/linux-4.14.47_layerscape_${VERSION} \
+Kernel/linux-imx_4.1.15_1.2.0_debian_${VERSION} \
+Kernel/linux-4.4.126_M7_${VERSION}"
+
+CODE_ELEMENTS="${UPD_ELEMENTS} ${KERNEL_ELEMENTS}"
+
+gitbin="git -C $1"
+
+REPO_TO_UPDATE=""
+CHECKED_REPO=0
+TO_BE_UPDATED=0
+
+for i in ${CODE_ELEMENTS}; do
+	if [ -d /Devel/NOVAsdk2019.01/${i}/.git ]; then 
+		let CHECKED_REPO=$CHECKED_REPO+1
+		gitbin="git -C /Devel/NOVAsdk2019.01/${i}"
+		#echo "$gitbin fetch origin"
+		#echo "Work on /Devel/NOVAsdk2019.01/${i}"
+		$gitbin fetch origin
+		if [ $($gitbin rev-parse HEAD)>/dev/null 2>&1 != $($gitbin rev-parse @{u})>/dev/null 2>&1 ]; then
+			echo " "
+			echo "/Devel/NOVAsdk2019.01/${i} has to be updated"
+			REPO_TO_UPDATE+=" /Devel/NOVAsdk2019.01/${i}"
+			let TO_BE_UPDATED=$TO_BE_UPDATED+1
+		else
+			echo -n "."
+		fi
+	else
+		echo "/Devel/NOVAsdk2019.01/${i} is not yet on git"
+	fi
+done
+echo " "
+echo "Checked       = ${CHECKED_REPO}"
+echo "To be updated = ${TO_BE_UPDATED}"
+! [ "${REPO_TO_UPDATE}" == "" ] && echo $REPO_TO_UPDATE
+! [ "${REPO_TO_UPDATE}" == "" ] && exit $TO_BE_UPDATED
+
+
