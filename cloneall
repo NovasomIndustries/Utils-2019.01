@@ -32,27 +32,23 @@ cd Bootloader
 git clone https://github.com/NovasomIndustries/u-boot-novasomP-2015.04_${VERSION}.git
 git clone https://github.com/NovasomIndustries/u-boot-novasomU-2016.03_${VERSION}.git
 git clone https://github.com/NovasomIndustries/u-boot-novasomM8-2017.11_${VERSION}.git
-git clone https://github.com/NovasomIndustries/u-boot-novasomM9-2018.03_${VERSION}.git
-git clone https://github.com/NovasomIndustries/u-boot-NOVAsomH5-2017.11_${VERSION}.git
-git clone https://github.com/NovasomIndustries/arm-trusted-firmware-h6-smp_${VERSION}.git
+git clone https://github.com/NovasomIndustries/u-boot-novasomM7-2017.09_${VERSION}.git
+git clone https://github.com/NovasomIndustries/u-boot-novasomN1-2017.11_${VERSION}.git
 ln -s u-boot-novasomP-2015.04_${VERSION} u-boot-novasomP-2015.04
 ln -s u-boot-novasomU-2016.03_${VERSION} u-boot-novasomU-2016.03
 ln -s u-boot-novasomM8-2017.11_${VERSION} u-boot-novasomM8-2017.11
-ln -s u-boot-novasomM9-2018.03_${VERSION} u-boot-novasomM9-2018.03
-ln -s u-boot-NOVAsomH5-2017.11_${VERSION} u-boot-NOVAsomH5-2017.11
-ln -s arm-trusted-firmware-h6-smp_${VERSION} arm-trusted-firmware-h6-smp
-cd ..
-
-cd Kernel
-git clone https://github.com/NovasomIndustries/linux-allw-4.14.0_${VERSION}.git
-git clone https://github.com/NovasomIndustries/linux-allw-4.15.0_${VERSION}.git
+ln -s u-boot-novasomM7-2017.09-${VERSION} u-boot-novasomM7-2017.09
+ln -s u-boot-novasomN1-2017.11-${VERSION} u-boot-novasomN1-2017.11
+cd ../Kernel
+git clone https://github.com/NovasomIndustries/linux-4.4.126_M7_${VERSION}.git
 git clone https://github.com/NovasomIndustries/linux-4.11.0-QualcommLinaro_${VERSION}.git
 git clone https://github.com/NovasomIndustries/linux-imx_4.1.15_1.2.0_ga_${VERSION}.git
 git clone https://github.com/NovasomIndustries/linux-imx_4.1.43_${VERSION}.git
+git clone https://github.com/NovasomIndustries/linux-4.14.47_layerscape_${VERSION}.git
 ln -s linux-4.11.0-QualcommLinaro_${VERSION} linux-4.11.0-QualcommLinaro
 ln -s linux-imx_4.1.15_1.2.0_ga_${VERSION} linux-imx_4.1.15_1.2.0_ga
 ln -s linux-imx_4.1.43_${VERSION} linux-imx_4.1.43
-ln -s linux-allw-4.14.0_${VERSION} linux-allw-4.14.0
-ln -s linux-allw-4.15.0_${VERSION} linux-allw-4.15.0
+ln -s linux-4.4.126_M7_${VERSION} linux-4.4.126_M7
+ln -s linux-4.14.47_layerscape_${VERSION} linux-4.14.47_layerscape
 
 
