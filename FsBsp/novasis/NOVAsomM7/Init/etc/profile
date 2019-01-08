@@ -10,6 +10,7 @@ fi
 
 export PAGER='/bin/more '
 export EDITOR='/bin/vi'
+export XDG_RUNTIME_DIR=/tmp/.xdg
 
 # Source configuration files from /etc/profile.d
 for i in /etc/profile.d/*.sh ; do

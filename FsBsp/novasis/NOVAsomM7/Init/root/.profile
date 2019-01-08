@@ -7,6 +7,11 @@ if [ -d /tmp/application_storage ]; then
                 /tmp/application_storage/AutoRun.sh &
         fi
 fi
+#for wayland
+	mkdir -p /tmp/.xdg &&  chmod 0700 /tmp/.xdg
+	export XDG_RUNTIME_DIR=/tmp/.xdg
+	weston --tty=2 --idle-time=0&
+
 # for qt-web-kiosk
 if [ -f /usr/bin/qt-webkit-kiosk ]; then
         RESOLUTION_WIDTH=`fbset | grep geometry | awk '{print $2}'`
