@@ -3,10 +3,9 @@
 VERSION="2019.01"
 git clone https://github.com/NovasomIndustries/Utils-${VERSION}.git
 git clone https://github.com/NovasomIndustries/Xcompiler-${VERSION}.git
-
+HERE=`pwd`
 cd Qt
 git clone https://github.com/NovasomIndustries/NOVAembed-${VERSION}.git
-HERE=`pwd`
 cd /Devel/NOVAsdk${VERSION}/Qt/build-NOVAembed-Desktop-Debug
 make distclean
 /usr/lib64/qt5/bin/qmake /Devel/NOVAsdk${VERSION}/Qt/NOVAembed/NOVAembed.pro -r -spec linux-g++-64 CONFIG+=debug
@@ -25,10 +24,7 @@ gcc -Wall -g  -c src/dts_gen.c -o obj/dts_gen.o
 gcc -Wall -g  -c src/iomux.c -o obj/iomux.o
 gcc -Wall -g  -c src/main.c -o obj/main.o
 g++  -o bin/Debug/NOVAembed_U_Parser obj/dts_gen.o obj/iomux.o obj/main.o
-cd ${HERE}
-cd ..
-
-cd Bootloader
+cd ${HERE}/Bootloader
 git clone https://github.com/NovasomIndustries/u-boot-novasomP-2015.04_${VERSION}.git
 git clone https://github.com/NovasomIndustries/u-boot-novasomU-2016.03_${VERSION}.git
 git clone https://github.com/NovasomIndustries/u-boot-novasomM8-2017.11_${VERSION}.git
@@ -50,5 +46,3 @@ ln -s linux-imx_4.1.15_1.2.0_ga_${VERSION} linux-imx_4.1.15_1.2.0_ga
 ln -s linux-imx_4.1.43_${VERSION} linux-imx_4.1.43
 ln -s linux-4.4.126_M7_${VERSION} linux-4.4.126_M7
 ln -s linux-4.14.47_layerscape_${VERSION} linux-4.14.47_layerscape
-
-

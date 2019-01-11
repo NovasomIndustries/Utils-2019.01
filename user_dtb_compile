@@ -14,6 +14,7 @@ DTB_OUTFILE=${INFILE}.dtb
 FOUND="0"
 if [ "$2" = "P" ]; then
 	DTC_EXEC="dtc"
+	DTC_EXEC="/Devel/NOVAsdk${VERSION}/Kernel/linux-imx_4.1.15_1.2.0_ga/scripts/dtc/dtc"
 	WORKAREA_LOCATION="/Devel/NOVAsdk${VERSION}/DtbUserWorkArea"
 	KERNEL="linux-imx_4.1.15_1.2.0_ga"
 	KERNEL_LOCATION="/Devel/NOVAsdk${VERSION}/Kernel/linux-imx_4.1.15_1.2.0_ga/arch/arm/boot/dts"
@@ -22,6 +23,7 @@ if [ "$2" = "P" ]; then
 fi
 if [ "$2" = "U" ]; then
 	DTC_EXEC="dtc"
+	DTC_EXEC="/Devel/NOVAsdk${VERSION}/Kernel/linux-imx_4.1.43/scripts/dtc/dtc"
 	WORKAREA_LOCATION="/Devel/NOVAsdk${VERSION}/DtbUserWorkArea"
 	KERNEL="linux-imx_4.1.43"
 	KERNEL_LOCATION="/Devel/NOVAsdk${VERSION}/Kernel/linux-imx_4.1.43/arch/arm/boot/dts"
