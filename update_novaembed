@@ -27,8 +27,9 @@ novaembed()
 }
 
 cd /Devel/NOVAsdk${VERSION}/Qt/NOVAembed-${VERSION}
-git pull --dry-run | grep -q -v 'Already up-to-date.'
-if [ "$?" == "1" ]; then
+git pull --dry-run 2> ../res
+cat ../res | grep master
+if [ "$?" == "0" ]; then
 	cd ..
 	rm -rf *
 	novaembed
