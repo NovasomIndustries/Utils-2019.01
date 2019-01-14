@@ -1,0 +1,35 @@
+#!/bin/sh
+. ./version
+
+novaembed()
+{
+	cd /Devel/NOVAsdk${VERSION}/Qt/build-NOVAembed-Desktop-Debug
+	make distclean
+	/usr/lib64/qt5/bin/qmake /Devel/NOVAsdk${VERSION}/Qt/NOVAembed/NOVAembed.pro -r -spec linux-g++-64 CONFIG+=debug
+	make
+	cd /Devel/NOVAsdk${VERSION}/Qt/NOVAembed/NOVAembed_P_Parser
+	rm -rf obj bin
+	mkdir -p obj bin/Debug
+	gcc -Wall -g  -c src/dts_gen.c -o obj/dts_gen.o
+	gcc -Wall -g  -c src/iomux.c -o obj/iomux.o
+	gcc -Wall -g  -c src/main.c -o obj/main.o
+	g++  -o bin/Debug/NOVAembed_P_Parser obj/dts_gen.o obj/iomux.o obj/main.o
+	cd /Devel/NOVAsdk${VERSION}/Qt/NOVAembed/NOVAembed_U_Parser
+	rm -rf obj bin
+	mkdir -p obj bin/Debug
+	gcc -Wall -g  -c src/dts_gen.c -o obj/dts_gen.o
+	gcc -Wall -g  -c src/iomux.c -o obj/iomux.o
+	gcc -Wall -g  -c src/main.c -o obj/main.o
+	g++  -o bin/Debug/NOVAembed_U_Parser obj/dts_gen.o obj/iomux.o obj/main.o  
+}
+
+rm -rf /Devel/NOVAsdk${VERSION}/Qt/NOVAembed-${VERSION}
+HERE=`pwd`
+cd /Devel/NOVAsdk${VERSION}/Qt
+echo " NOVAembed not found, cloning"
+git clone https://github.com/NovasomIndustries/NOVAembed-${VERSION}.git
+ln -s NOVAembed-${VERSION} NOVAembed
+novaembed
+cd ${HERE} 
+
+
