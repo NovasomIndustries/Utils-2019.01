@@ -1,0 +1,8 @@
+#!/bin/sh
+. ./version
+cd /Devel/NOVAsdk${VERSION}/Utils
+./update_others
+./update_boot  
+./update_kernel  
+./update_novaembed  
+
