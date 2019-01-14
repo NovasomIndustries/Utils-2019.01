@@ -34,7 +34,7 @@ for i in ${CODE_ELEMENTS}; do
 		let CHECKED_REPO=$CHECKED_REPO+1
 		gitbin="git -C /Devel/NOVAsdk2019.01/${i}"
 		#echo "$gitbin fetch origin"
-		#echo "Work on /Devel/NOVAsdk2019.01/${i}"
+		echo "Work on /Devel/NOVAsdk2019.01/${i}"
 		$gitbin fetch origin
 		if [ $($gitbin rev-parse HEAD)>/dev/null 2>&1 != $($gitbin rev-parse @{u})>/dev/null 2>&1 ]; then
 			echo " "
@@ -45,7 +45,7 @@ for i in ${CODE_ELEMENTS}; do
 			echo -n "."
 		fi
 	else
-		echo "/Devel/NOVAsdk2019.01/${i} is not yet on git"
+		echo "/Devel/NOVAsdk2019.01/${i} has not yet downloaded from git"
 	fi
 done
 echo " "
