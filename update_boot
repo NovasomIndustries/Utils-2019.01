@@ -1,0 +1,23 @@
+#!/bin/sh
+. ./version
+UPD_ELEMENTS="\
+Bootloader/u-boot-novasomM8-2017.11_${VERSION} \
+Bootloader/u-boot-novasomP-2015.04_${VERSION} \
+Bootloader/u-boot-novasomU-2016.03_${VERSION} \
+Bootloader/u-boot-novasomN1-2017.11_${VERSION} \
+Bootloader/u-boot-novasomM7-2017.09_${VERSION}"
+
+COUNTMODS=0
+COUNTRECV=0
+INCREMENT=1
+
+cd /Devel/NOVAsdk${VERSION}
+for i in ${UPD_ELEMENTS}; do
+	HERE=`pwd`
+	if [ -d ${i} ]; then
+		cd ${i}
+		git pull
+	fi
+	cd ${HERE}
+done
+
