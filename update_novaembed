@@ -3,8 +3,8 @@
 
 novaembed()
 {
+	mkdir /Devel/NOVAsdk${VERSION}/Qt/build-NOVAembed-Desktop-Debug
 	cd /Devel/NOVAsdk${VERSION}/Qt/build-NOVAembed-Desktop-Debug
-	make distclean
 	/usr/lib64/qt5/bin/qmake /Devel/NOVAsdk${VERSION}/Qt/NOVAembed/NOVAembed.pro -r -spec linux-g++-64 CONFIG+=debug
 	make
 	cd /Devel/NOVAsdk${VERSION}/Qt/NOVAembed/NOVAembed_P_Parser
@@ -23,13 +23,10 @@ novaembed()
 	g++  -o bin/Debug/NOVAembed_U_Parser obj/dts_gen.o obj/iomux.o obj/main.o  
 }
 
-rm -rf /Devel/NOVAsdk${VERSION}/Qt/NOVAembed-${VERSION}
-HERE=`pwd`
+rm -rf /Devel/NOVAsdk${VERSION}/Qt/*
 cd /Devel/NOVAsdk${VERSION}/Qt
 echo "Doing a full clone"
 git clone https://github.com/NovasomIndustries/NOVAembed-${VERSION}.git
 ln -s NOVAembed-${VERSION} NOVAembed
 novaembed
-cd ${HERE} 
-
 
