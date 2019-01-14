@@ -26,8 +26,10 @@ novaembed()
 	g++  -o bin/Debug/NOVAembed_U_Parser obj/dts_gen.o obj/iomux.o obj/main.o  
 }
 
-cd /Devel/NOVAsdk${VERSION}/Qt
-if [ $(git -C NOVAembed-${VERSION} rev-parse HEAD)>/dev/null 2>&1 != $(git -C NOVAembed-${VERSION} rev-parse @{u})>/dev/null 2>&1 ]; then
+cd /Devel/NOVAsdk${VERSION}/Qt/NOVAembed-${VERSION}
+git pull --dry-run | grep -q -v 'Already up-to-date.'
+if [ "$?" == "0" ]; then
+	cd ..
 	rm -rf *
 	novaembed
 else
