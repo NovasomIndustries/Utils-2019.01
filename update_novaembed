@@ -23,14 +23,14 @@ novaembed()
 	g++  -o bin/Debug/NOVAembed_U_Parser obj/dts_gen.o obj/iomux.o obj/main.o  
 }
 
-cd /Devel/NOVAsdk${VERSION}/Qt/NOVAembed-${VERSION}
-gitbin="git -C NOVAembed-${VERSION}"
-if [ $($gitbin rev-parse HEAD)>/dev/null 2>&1 != $($gitbin rev-parse @{u})>/dev/null 2>&1 ]; then
-	cd /Devel/NOVAsdk${VERSION}/Qt
+cd /Devel/NOVAsdk${VERSION}/Qt
+if [ $(git -C NOVAembed-${VERSION} rev-parse HEAD)>/dev/null 2>&1 != $(git -C NOVAembed-${VERSION} rev-parse @{u})>/dev/null 2>&1 ]; then
 	rm -rf *
 	echo "Doing a full clone"
 	git clone https://github.com/NovasomIndustries/NOVAembed-${VERSION}.git
 	ln -s NOVAembed-${VERSION} NOVAembed
 	novaembed
+else
+	echo "Novaembed is up to date"
 fi
 
