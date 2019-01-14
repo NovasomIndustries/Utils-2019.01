@@ -33,6 +33,7 @@ if [ "$?" == "0" ]; then
 	cd ..
 	rm -rf *
 	novaembed
+	echo "1" > /tmp/result
 else
 	echo "Novaembed is up to date"
 fi
