@@ -84,8 +84,18 @@ fi
 
 cp /Devel/NOVAsdk${VERSION}/Utils/Configurations/${BUILDROOT_CFG_BASE} .config
 cp /Devel/NOVAsdk${VERSION}/Utils/Configurations/${BUSYBOX_CFG_BASE} BusyBox.config
+# This is for M7 only
 [ "$IS_M7" == "1" ] && cp -a /Devel/NOVAsdk${VERSION}/Utils/rock/buildroot_package_rockchip package/rockchip
 [ "$IS_M7" == "1" ] && cp /Devel/NOVAsdk${VERSION}/Utils/rock/Config.in package/.
+# This is for M7 only END
+
+# Patches, standard files
+FILESTOPATCH="ffmpeg"
+for i in ${FILESTOPATCH}; do
+	rm -rf package/${i}
+	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/.
+done
+# Patches, standard files END
 
 subst_config "BR2_TARGET_GENERIC_HOSTNAME" ${1}
 subst_config "BR2_TARGET_GENERIC_ISSUE" "Welcome"
