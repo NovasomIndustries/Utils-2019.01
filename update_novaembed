@@ -32,6 +32,7 @@ cat ../res | grep master
 if [ "$?" == "0" ]; then
 	cd ..
 	rm -rf *
+	echo "Updating NOVAembed"
 	novaembed
 	echo 1 > /tmp/result
 else
