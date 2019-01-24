@@ -36,6 +36,6 @@ if [ "$?" == "0" ]; then
 	novaembed
 	echo 1 > /tmp/result
 else
-	echo "Novaembed is up to date"
+	echo "... Novaembed Already up to date"
 	echo "0" > /tmp/result
 fi
