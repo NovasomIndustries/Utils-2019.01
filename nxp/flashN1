@@ -11,19 +11,19 @@
 . ./functions
 . ../version
 
-#THE_KERNEL="linux-4.14.47_layerscape_1.0.5"
-THE_KERNEL="linux-4.9.105_layerscape_1.0.5"
-KERNEL="/Devel/NOVAsdk${VERSION}/Kernel/${THE_KERNEL}/uImage"
+THE_KERNEL="linux-4.14.47_layerscape_2019.01"
+#THE_KERNEL="linux-4.9.105_layerscape_1.0.5"
+KERNEL="/Devel/NOVAsdk${VERSION}/Kernel/${THE_KERNEL}/arch/arm64/boot/Image"
 UINITRD="/Devel/NOVAsdk${VERSION}/Deploy/uInitrd"
 DISK=${4}
 DTB=${5}
-STATICDTB="/Devel/NOVAsdk${VERSION}/Kernel/${THE_KERNEL}/arch/arm64/boot/dts/freescale/novasomn1-ls1012a.dtb"
+STATICDTB="/Devel/NOVAsdk${VERSION}/Kernel/${THE_KERNEL}/arch/arm64/boot/dts/novasis/NOVAsom_N1.dtb"
 NOVASOMPARAMS="/Devel/NOVAsdk${VERSION}/Utils/BootParameters/$6"
 DEPLOY_DIR="/Devel/NOVAsdk${VERSION}/Deploy"
 RAMDISK_SIZE="$7"
 
 echo "1" > /tmp/result
-FILES="$KERNEL $DTB $UINITRD $NOVASOMPARAMS"
+FILES="$KERNEL $STATICDTB $UINITRD $NOVASOMPARAMS"
 for i in ${FILES}; do
         if ! [ -f ${i} ]; then
                 echo "File ${i} not found"
@@ -36,7 +36,7 @@ if [ ! -b ${DISK} ]; then
 	exit
 fi
 sudo umount ${DISK}* >/dev/null 2>&1
-echo "Writing NOVAsomU uSD"
+echo "Writing NOVAsomN1 uSD"
 sudo sgdisk -Z ${DISK} >/dev/null 2>&1
 sleep 1
 sudo dd if=/dev/zero of=${DISK} bs=4M count=1; sync
@@ -103,7 +103,9 @@ for i in ${FILES}; do
 	echo "Done"
 done
 NDTB=`basename ${STATICDTB}`
-sudo mv tmpmount/${NDTB}  tmpmount/novasomn1.dtb
+NKERNEL=`basename ${KERNEL}`
+sudo mv tmpmount/${NDTB}  tmpmount/NOVAsom_N1.dtb
+sudo mv tmpmount/${NKERNEL}  tmpmount/Image
 
 echo -n "Copying `basename ${NOVASOMPARAMS}` ..."
 echo "setramsize=setenv rdsize ${RAMDISK_SIZE}" > ${DEPLOY_DIR}/NOVAsomParams
