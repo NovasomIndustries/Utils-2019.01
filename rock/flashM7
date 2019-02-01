@@ -14,6 +14,20 @@ SIZE2=${3}
 DISK=${4}
 NOVASOM_PARAMS=${7}
 RAMDISK_SIZE=${8}
+FILES="../../Blobs/linux-rock_m7-4.4.126_Image ../../Blobs/m7-idbloader.img ../../Blobs/m7-uboot.img ../../Blobs/m7-trust.img ../../Blobs/m7_dtb.dtb ../../Deploy/uInitrd"
+for i in ${FILES}; do
+	if ! [ -f ${i} ]; then
+		NOTFOUND=`basename ${i}`
+		echo "${NOTFOUND} not found. giving up"
+		echo "0" > /tmp/result
+		return 1
+	fi
+done
+if ! [ -f ../../Deploy/uInitrd ]; then
+	echo "uInitrd not found. giving up"
+	echo "0" > /tmp/result
+	return 1
+fi
 [ "${DISK}" == "" ] && DISK="/dev/sdb"
 echo -n "Creating basic structure on ${DISK} ... "
 sudo sgdisk -Z ${DISK} > /dev/null 2>&1
@@ -34,21 +48,20 @@ sleep 1
 sudo partprobe ${DISK} 
 echo "Done"
 echo -n "Storing boot files ... "
-sudo dd if=../../Bootloader/u-boot-novasomM7-2017.09/idbloader.img of=/dev/sdb seek=64 conv=notrunc  > /dev/null 2>&1
-sudo dd if=../../Bootloader/u-boot-novasomM7-2017.09/uboot.img of=/dev/sdb seek=16384 conv=notrunc  > /dev/null 2>&1
-sudo dd if=../../Bootloader/u-boot-novasomM7-2017.09/trust.img of=/dev/sdb seek=24576 conv=notrunc  > /dev/null 2>&1
+sudo dd if=../../Blobs/m7-idbloader.img of=/dev/sdb seek=64 conv=notrunc  > /dev/null 2>&1
+sudo dd if=../../Blobs/m7-uboot.img of=/dev/sdb seek=16384 conv=notrunc  > /dev/null 2>&1
+sudo dd if=../../Blobs/m7-trust.img of=/dev/sdb seek=24576 conv=notrunc  > /dev/null 2>&1
 sync
 echo "Done"
 echo -n "Formatting and populating partitions ... "
 yes | sudo mkfs.ext4 ${DISK}4
 yes | sudo mkfs.ext4 ${DISK}5
 yes | sudo mkfs.vfat ${DISK}8
-#sudo mkfs.ext2 ${DISK}8
 sync
 rm -rf tmp ; mkdir tmp
 sudo mount ${DISK}8 tmp > /dev/null 2>&1
-sudo cp ../../Deploy/m7_Image tmp/Image
-sudo cp ../../Deploy/m7_dtb.dtb tmp/dtb.dtb
+sudo cp ../../Blobs/linux-rock_m7-4.4.126_Image tmp/Image
+sudo cp ../../Blobs/m7_dtb.dtb tmp/dtb.dtb
 sudo cp ../../Deploy/uInitrd tmp/.
 echo "rdsize=${RAMDISK_SIZE}" > NOVAsomParams_Local
 cat NOVAsomParams_M7 >> NOVAsomParams_Local
