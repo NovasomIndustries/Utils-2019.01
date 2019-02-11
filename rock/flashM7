@@ -40,7 +40,34 @@ sudo sgdisk -n 2::+4M  -c 2:loader2 ${DISK}  > /dev/null 2>&1
 sudo sgdisk -n 3::+4M  -c 3:trust ${DISK}  > /dev/null 2>&1
 sudo sgdisk -n 8::+512M -c 8:M7Boot ${DISK}  > /dev/null 2>&1
 sudo sgdisk -n 4::+16M -c 4:config ${DISK}  > /dev/null 2>&1
-sudo sgdisk -n 5::     -c 5:rootfs ${DISK}  > /dev/null 2>&1
+if [ "${USERNUM}" == "1" ]; then
+	if [ "${SIZE1}" == "0" ]; then
+		sudo sgdisk -n 5::      -c 5:user1 ${DISK}  > /dev/null 2>&1
+	else
+		sudo sgdisk -n 5::+${SIZE1}      -c 5:user1 ${DISK}  > /dev/null 2>&1
+	fi
+
+fi
+P6DONE="0"
+if [ "${USERNUM}" == "2" ]; then
+	if [ "${SIZE1}" == "0" ]; then
+		if ! [ "${SIZE2}" == "0" ]; then
+			sudo sgdisk -n 6::+${SIZE2}M      -c 6:user2 ${DISK}  > /dev/null 2>&1
+			P6DONE="1"
+		fi
+		sudo sgdisk -n 5::      -c 5:user1 ${DISK}  > /dev/null 2>&1
+	else
+		sudo sgdisk -n 5::+${SIZE1}M      -c 5:user1 ${DISK}  > /dev/null 2>&1
+	fi
+	if [ "${P6DONE}" == "0" ]; then
+		if [ "${SIZE2}" == "0" ]; then
+			sudo sgdisk -n 6::      -c 6:user2 ${DISK}  > /dev/null 2>&1
+		else
+			sudo sgdisk -n 6::+${SIZE2}M      -c 6:user2 ${DISK}  > /dev/null 2>&1
+		fi
+	fi
+fi
+#sudo sgdisk -n 5::     -c 5:rootfs ${DISK}  > /dev/null 2>&1
 sudo sgdisk -A 8:set:2 -t 8:0700 ${DISK}  > /dev/null 2>&1
 sleep 1
 sync
@@ -53,10 +80,25 @@ sudo dd if=../../Blobs/m7-uboot.img of=/dev/sdb seek=16384 conv=notrunc  > /dev/
 sudo dd if=../../Blobs/m7-trust.img of=/dev/sdb seek=24576 conv=notrunc  > /dev/null 2>&1
 sync
 echo "Done"
-echo -n "Formatting and populating partitions ... "
+echo -n "Formatting and populating partition 4... "
 yes | sudo mkfs.ext4 ${DISK}4
-yes | sudo mkfs.ext4 ${DISK}5
+echo "Done"
+if [ "${USERNUM}" == "1" ]; then
+	echo -n "Formatting and populating partition 5... "
+	yes | sudo mkfs.ext4 ${DISK}5
+	echo "Done"
+fi
+if [ "${USERNUM}" == "2" ]; then
+	echo -n "Formatting and populating partition 5... "
+	yes | sudo mkfs.ext4 ${DISK}5
+	echo "Done"
+	echo -n "Formatting and populating partition 6... "
+	yes | sudo mkfs.ext4 ${DISK}6
+	echo "Done"
+fi
+echo -n "Formatting and populating partition 8... "
 yes | sudo mkfs.vfat ${DISK}8
+echo "Done"
 sync
 rm -rf tmp ; mkdir tmp
 sudo mount ${DISK}8 tmp > /dev/null 2>&1
