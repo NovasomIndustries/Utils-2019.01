@@ -1,5 +1,0 @@
-rdsize=36044
-defineramroot=setenv ramroot /dev/ram0 rw
-setboardargs=setenv bootargs console=${console},${baudrate} root=${ramroot} ramdisk_size=${rdsize}
-uenvcmd=run defineramroot; run setboardargs ; run mmcloadfdt ; run mmcloadimage ; run mmcloadinitrd ; booti ${loadaddr} ${fsaddr} ${fdt_addr}
-
