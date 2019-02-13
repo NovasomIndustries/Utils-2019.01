@@ -24,6 +24,13 @@ novaembed()
 	gcc -Wall -g  -c src/iomux.c -o obj/iomux.o
 	gcc -Wall -g  -c src/main.c -o obj/main.o
 	g++  -o bin/Debug/NOVAembed_U_Parser obj/dts_gen.o obj/iomux.o obj/main.o  
+	cd /Devel/NOVAsdk${VERSION}/Qt/NOVAembed/NOVAembed_M7_Parser
+	rm -rf obj bin
+	mkdir -p obj bin/Debug
+	gcc -Wall -g  -c src/dts_gen.c -o obj/dts_gen.o
+	gcc -Wall -g  -c src/iomux.c -o obj/iomux.o
+	gcc -Wall -g  -c src/main.c -o obj/main.o
+	g++  -o bin/Debug/NOVAembed_M7_Parser obj/dts_gen.o obj/iomux.o obj/main.o
 }
 
 echo -n "Working on NOVAembed ... "
