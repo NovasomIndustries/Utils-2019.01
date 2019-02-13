@@ -30,6 +30,15 @@ if [ "$2" = "U" ]; then
 	STD_FILES="imx6dl.dtsi imx6dl-pinfunc.h imx6qdl.dtsi skeleton.dtsi imx6ull.dtsi imx6ull-pinfunc.h imx6ul-pinfunc.h imx6ull-pinfunc-snvs.h "
 	FOUND="1"
 fi
+if [ "$2" = "M7" ]; then
+	DTC_EXEC="dtc"
+	DTC_EXEC="/Devel/NOVAsdk${VERSION}/Kernel/linux-4.4.126_M7_2019.01/scripts/dtc/dtc"
+	WORKAREA_LOCATION="/Devel/NOVAsdk${VERSION}/DtbUserWorkArea"
+	KERNEL="linux-4.4.126_M7_2019.01"
+	KERNEL_LOCATION="/Devel/NOVAsdk${VERSION}/Kernel/linux-4.4.126_M7_2019.01/arch/arm64/boot/dts"
+	STD_FILES="rockchip/rk3328.dtsi rockchip/rk3328-dram-default-timing.dtsi"
+	FOUND="1"
+fi
 [ ! "$FOUND" = "1" ] && echo "Not implemented yet"
 echo "0" > /tmp/result
 [ ! "$FOUND" = "1" ] && return 0
