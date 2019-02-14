@@ -18,9 +18,9 @@ echo "1" > /tmp/result
 . ../${SOURCEMEFILE}
 cd ../../Kernel/${KERNEL}
 ! [ -z "${DEFCONFIG}" ] && cleanup_and_configure
-make -j32 
+make -j32  LOCALVERSION=M7
 [ ! "$?" = "0" ] && exit
-make -j32 modules
+make -j32 modules LOCALVERSION=M7
 [ ! "$?" = "0" ] && exit
 make rockchip/rk3328-NOVAsomM7.dtb
 cp arch/arm64/boot/Image ../../Blobs/linux-rock_m7-4.4.126_Image

@@ -7,6 +7,7 @@ if [ -d /tmp/application_storage ]; then
                 /tmp/application_storage/AutoRun.sh &
         fi
 fi
+modprobe 8723bs
 #for wayland
 	mkdir -p /tmp/.xdg &&  chmod 0700 /tmp/.xdg
 	export XDG_RUNTIME_DIR=/tmp/.xdg
