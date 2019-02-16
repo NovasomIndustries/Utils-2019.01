@@ -1,5 +1,0 @@
-rdsize=93440
-setvideo_hdmi1024x600=setenv loadbin drm_kms_helper.edid_firmware=edid/1024x600.bin
-setboardargs=setenv bootargs console=${console},${baudrate} root=${ramroot} quiet ${videomode} ramdisk_size=${rdsize} drm_kms_helper.edid_firmware=edid/1024x600.bin
-uenvcmd=run setboardargs ; run mmcloadfdt ; run mmcloadimage ; run mmcloadinitrd ; booti ${loadaddr} ${fsaddr} ${fdt_addr}
-

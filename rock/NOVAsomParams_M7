@@ -1,0 +1,2 @@
+setboardargs=setenv bootargs console=ttyFIQ0,115200 root=/dev/ram rootwait rw ramdisk_size=${rdsize}
+uenvcmd=run setramsize; run setboardargs ; run mmcloadfdt ; run mmcloadimage ; run mmcloadinitrd ; booti ${loadaddr} ${fsaddr} ${fdt_addr}

@@ -18,15 +18,16 @@ echo "1" > /tmp/result
 . ../${SOURCEMEFILE}
 cd ../../Kernel/${KERNEL}
 ! [ -z "${DEFCONFIG}" ] && cleanup_and_configure
-LOCALVERSION=-M7 make -j32
+make -j32
 [ ! "$?" = "0" ] && exit
-LOCALVERSION=-M7 make -j32 modules
+make -j32 modules
 [ ! "$?" = "0" ] && exit
-make rockchip/rk3328-NOVAsomM7.dtb
+make rockchip/rk3328-evb.dtb
 cp arch/arm64/boot/Image ../../Blobs/linux-rock_m7-4.4.126_Image
-cp arch/arm64/boot/dts/rockchip/rk3328-NOVAsomM7.dtb ../../Blobs/m7_dtb.dtb
+cp arch/arm64/boot/dts/rockchip/rk3328-evb.dtb ../../Blobs/m7_dtb.dtb
 cd ../../Deploy
 rm m7_Image m7_dtb.dtb
 ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image m7_Image
-ln -s ../Kernel/${KERNEL}/arch/arm64/boot/dts/rockchip/rk3328-NOVAsomM7.dtb m7_dtb.dtb
+ln -s ../Kernel/${KERNEL}/arch/arm64/boot/dts/rockchip/rk3328-evb.dtb m7_dtb.dtb
+sync
 echo "0" > /tmp/result

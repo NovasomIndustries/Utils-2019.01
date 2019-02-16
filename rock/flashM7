@@ -14,7 +14,7 @@ SIZE2=${3}
 DISK=${4}
 NOVASOM_PARAMS=${7}
 RAMDISK_SIZE=${8}
-FILES="../../Blobs/linux-rock_m7-4.4.126_Image ../../Blobs/m7-idbloader.img ../../Blobs/m7-uboot.img ../../Blobs/m7-trust.img ../../Blobs/m7_dtb.dtb ../../Deploy/uInitrd"
+FILES="../../Blobs/linux-rock_m7-4.4.126_Image ../../Blobs/m7-idbloader.img ../../Blobs/m7-uboot.img ../../Blobs/m7-trust.img ../../Blobs/m7_dtb.dtb ../../Deploy/uInitrd NOVAsomParams_M7"
 for i in ${FILES}; do
 	if ! [ -f ${i} ]; then
 		NOTFOUND=`basename ${i}`
@@ -44,7 +44,7 @@ if [ "${USERNUM}" == "1" ]; then
 	if [ "${SIZE1}" == "0" ]; then
 		sudo sgdisk -n 5::      -c 5:user1 ${DISK}  > /dev/null 2>&1
 	else
-		sudo sgdisk -n 5::+${SIZE1}      -c 5:user1 ${DISK}  > /dev/null 2>&1
+		sudo sgdisk -n 5::+${SIZE1}M     -c 5:user1 ${DISK}  > /dev/null 2>&1
 	fi
 
 fi
@@ -67,7 +67,6 @@ if [ "${USERNUM}" == "2" ]; then
 		fi
 	fi
 fi
-#sudo sgdisk -n 5::     -c 5:rootfs ${DISK}  > /dev/null 2>&1
 sudo sgdisk -A 8:set:2 -t 8:0700 ${DISK}  > /dev/null 2>&1
 sleep 1
 sync
@@ -100,15 +99,15 @@ echo -n "Formatting and populating partition 8... "
 yes | sudo mkfs.vfat ${DISK}8
 echo "Done"
 sync
-rm -rf tmp ; mkdir tmp
-sudo mount ${DISK}8 tmp > /dev/null 2>&1
-sudo cp ../../Blobs/linux-rock_m7-4.4.126_Image tmp/Image
-sudo cp ../../Blobs/m7_dtb.dtb tmp/dtb.dtb
-sudo cp ../../Deploy/uInitrd tmp/.
-echo "rdsize=${RAMDISK_SIZE}" > NOVAsomParams_Local
-cat NOVAsomParams_M7 >> NOVAsomParams_Local
-sudo cp NOVAsomParams_Local tmp/NOVAsomParams
-sudo umount tmp
+rm -rf mdisk ; mkdir mdisk
+sudo mount ${DISK}8 mdisk > /dev/null 2>&1
+sudo cp ../../Blobs/linux-rock_m7-4.4.126_Image mdisk/Image
+sudo cp ../../Blobs/m7_dtb.dtb mdisk/dtb.dtb
+sudo cp ../../Deploy/uInitrd mdisk/.
+echo "setramsize=setenv rdsize ${RAMDISK_SIZE}" > /tmp/NOVAsomParams_Local
+cat NOVAsomParams_M7 >> /tmp/NOVAsomParams_Local
+sudo cp /tmp/NOVAsomParams_Local mdisk/NOVAsomParams
+sudo umount mdisk
 sync
 echo "Done."
 echo -n "Finishing up ..."

@@ -9,9 +9,11 @@ if [ -d /tmp/application_storage ]; then
 fi
 modprobe 8723bs
 #for wayland
+if [ -f ./usr/bin/weston ]; then
 	mkdir -p /tmp/.xdg &&  chmod 0700 /tmp/.xdg
 	export XDG_RUNTIME_DIR=/tmp/.xdg
 	weston --tty=2 --idle-time=0&
+fi
 
 # for qt-web-kiosk
 if [ -f /usr/bin/qt-webkit-kiosk ]; then
