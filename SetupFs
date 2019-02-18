@@ -90,7 +90,7 @@ cp /Devel/NOVAsdk${VERSION}/Utils/Configurations/${BUSYBOX_CFG_BASE} BusyBox.con
 # This is for M7 only END
 
 # Patches, standard files
-FILESTOPATCH="ffmpeg"
+FILESTOPATCH="ffmpeg rtl8723bs_bt Config.in"
 for i in ${FILESTOPATCH}; do
 	rm -rf package/${i}
 	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/.
