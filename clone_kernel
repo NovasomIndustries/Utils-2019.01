@@ -8,6 +8,8 @@ cat present | grep message
 [ "$?" == "0" ] && exit 1
 echo "Found!"
 git clone https://github.com/NovasomIndustries/${1}_${VERSION}.git
+cd /Devel/NOVAsdk${VERSION}/Kernel
+rm -f ${1}
 ln -s ${1}_${VERSION} ${1}
 echo "0" > /tmp/result
 exit 0

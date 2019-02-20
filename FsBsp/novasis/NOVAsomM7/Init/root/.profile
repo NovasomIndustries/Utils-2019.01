@@ -9,6 +9,9 @@ if [ -d /tmp/application_storage ]; then
 fi
 modprobe 8723bs
 modprobe gpio-ir-recv
+# set the trigger for rc feedback
+echo gpio-rc-feedback > /sys/class/leds/rc-feedback/trigger
+
 #for wayland
 if [ -f ./usr/bin/weston ]; then
 	mkdir -p /tmp/.xdg &&  chmod 0700 /tmp/.xdg

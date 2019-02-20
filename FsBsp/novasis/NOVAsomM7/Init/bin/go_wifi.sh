@@ -1,6 +1,10 @@
 #!/bin/sh
 . /etc/sysconfig/wireless
-ifconfig eth0 down
+. /etc/sysconfig/network
+
+ifconfig ${NET_DEVICE} down
+# LED on lan connetor off
+i2cset -f -y 1 0x18 0x52 2
 killall udhcpc
 wpa_supplicant -Dnl80211 -i${WLAN_DEVICE} -c/etc/wpa_supplicant.conf -B
 udhcpc -i ${WLAN_DEVICE} &
