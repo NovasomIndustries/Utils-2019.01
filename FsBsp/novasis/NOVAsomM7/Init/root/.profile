@@ -8,6 +8,7 @@ if [ -d /tmp/application_storage ]; then
         fi
 fi
 modprobe 8723bs
+modprobe gpio-ir-recv
 #for wayland
 if [ -f ./usr/bin/weston ]; then
 	mkdir -p /tmp/.xdg &&  chmod 0700 /tmp/.xdg
