@@ -4,21 +4,23 @@ FS=$2
 DTB_SDL=$3
 DTB_Q=$4
 . ./version
+echo "Writing $2 on $1"
+! [ -z $3 ] && echo "Using $3 as custom dtb"
+! [ -z $4 ] && echo "Using $4 as additional custom dtb"
 bzcat ${FS} | sudo dd of=${DISK} bs=4M status=progress
 sync
-if [ "$DTB_SDL" == "" ]; then
-	echo 0 > /tmp/result
-	return 0
+
+if ! [ -z "${3}" ]; then
+	rm -rf ext_tmp
+	mkdir ext_tmp
+	sudo mount ${DISK}1 ext_tmp
+	sudo cp /Devel/NOVAsdk${VERSION}/DtbUserWorkArea/${3} ext_tmp/.
+	if ! [ -z "${4}" ]; then
+		sudo cp /Devel/NOVAsdk${VERSION}/DtbUserWorkArea/${4} ext_tmp/.
+	fi
+	sync
+	sudo umount ext_tmp
 fi
 
-rm -rf ext_tmp
-mkdir ext_tmp
-sudo mount ${DISK}1 ext_tmp
-cp /Devel/NOVAsdk${VERSION}/DtbUserWorkArea/${DTB_SDL} ext_tmp/.
-cp /Devel/NOVAsdk${VERSION}/DtbUserWorkArea/${DTB_Q} ext_tmp/.
-sync
-sudo umount ext_tmp
-sync
-rm -rf ext_tmp
 echo 0 > /tmp/result
 return 0
