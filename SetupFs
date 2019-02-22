@@ -87,6 +87,7 @@ cp /Devel/NOVAsdk${VERSION}/Utils/Configurations/${BUSYBOX_CFG_BASE} BusyBox.con
 # This is for M7 only
 [ "$IS_M7" == "1" ] && cp -a /Devel/NOVAsdk${VERSION}/Utils/rock/buildroot_package_rockchip package/rockchip
 [ "$IS_M7" == "1" ] && cp /Devel/NOVAsdk${VERSION}/Utils/rock/Config.in package/.
+[ "$IS_M7" == "0" ] && cp /Devel/NOVAsdk${VERSION}/Utils/Patches/stdConfig.in package/.
 # This is for M7 only END
 
 # Patches, standard files

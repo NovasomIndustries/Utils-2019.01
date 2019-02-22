@@ -36,6 +36,7 @@ if [ "$2" = "M7" ]; then
 	WORKAREA_LOCATION="/Devel/NOVAsdk${VERSION}/DtbUserWorkArea"
 	KERNEL="linux-4.4.167_M7_2019.01"
 	KERNEL_LOCATION="/Devel/NOVAsdk${VERSION}/Kernel/linux-4.4.167_M7_2019.01/arch/arm64/boot/dts"
+	KERNEL_LOCATION="/Devel/NOVAsdk${VERSION}/Kernel/linux-4.4.167_M7_2019.01"
 	STD_FILES="rockchip/rk3328.dtsi rockchip/rk3328-dram-default-timing.dtsi"
 	FOUND="1"
 fi
