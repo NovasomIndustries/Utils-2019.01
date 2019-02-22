@@ -96,8 +96,6 @@ for i in ${FILESTOPATCH}; do
 	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/.
 done
 if [ "$IS_M7" == "0" ]; then
-	echo `pwd`
-	echo "cp /Devel/NOVAsdk${VERSION}/Utils/Patches/stdConfig.in package/Config.in"
 	cp /Devel/NOVAsdk${VERSION}/Utils/Patches/stdConfig.in package/Config.in
 fi
 # Patches, standard files END
