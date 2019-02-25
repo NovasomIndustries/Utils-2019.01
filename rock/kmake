@@ -30,6 +30,7 @@ mv gitb.git .git
 cd ../../Deploy
 rm m7_Image m7_dtb.dtb
 ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image m7_Image
+ln -s ../Kernel/${KERNEL}/.config m7.kernel.config
 ln -s ../Kernel/${KERNEL}/arch/arm64/boot/dts/rockchip/rk3328-novasomm7.dtb m7_dtb.dtb
 sync
 echo "0" > /tmp/result

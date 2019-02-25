@@ -97,6 +97,17 @@ for i in ${FILESTOPATCH}; do
 	rm -rf package/${i}
 	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/.
 done
+# Patches, rockchip files
+FILESTOPATCH="gst1-libav-rk"
+if [ "$IS_M7" == "1" ]; then
+	cd package/rockchip
+	for i in ${FILESTOPATCH}; do
+		rm -rf ${i}
+		cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/rockchip/${i} .
+	done
+	cd ../..
+fi
+
 if [ "$IS_M7" == "0" ]; then
 	cp /Devel/NOVAsdk${VERSION}/Utils/Patches/stdConfig.in package/Config.in
 fi
