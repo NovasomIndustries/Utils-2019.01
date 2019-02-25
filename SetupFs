@@ -70,7 +70,9 @@ echo ${BUILDROOT_CFG_BASE}
 echo ${BUSYBOX_CFG_BASE}
 
 cd /Devel/NOVAsdk${VERSION}/FileSystem
+cp /Devel/NOVAsdk${VERSION}/Utils/BuildRoot/${BR}.tar.bz2 .
 tar jxf ${BR}.tar.bz2
+rm ${BR}.tar.bz2
 mv ${BR} ${1}
 cd ${1}
 cp -r /Devel/NOVAsdk${VERSION}/Utils/${BSP_DIR}/novasis board/novasis
