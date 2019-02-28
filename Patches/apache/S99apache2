@@ -4,25 +4,29 @@
 #
 
 start() {
-	printf "Starting apache ... "
-	mkdir -p /tmp/www/html
-	echo "<html>" > /tmp/www/html/index.php
-	echo " <head>" >> /tmp/www/html/index.php
-	echo "  <title>NOVAsomM7 PHP Test</title>" >> /tmp/www/html/index.php
-	echo " </head>" >> /tmp/www/html/index.php
-	echo " <body>" >> /tmp/www/html/index.php
-	echo " <?php phpinfo(); ?>" >> /tmp/www/html/index.php
-	echo " </body>" >> /tmp/www/html/index.php
-	echo "</html>" >> /tmp/www/html/index.php
+	if [ -f /usr/bin/apachectl ]; then
+		printf "Starting apache ... "
+		mkdir -p /tmp/www/html
+		echo "<html>" > /tmp/www/html/index.php
+		echo " <head>" >> /tmp/www/html/index.php
+		echo "  <title>NOVAsomM7 PHP Test</title>" >> /tmp/www/html/index.php
+		echo " </head>" >> /tmp/www/html/index.php
+		echo " <body>" >> /tmp/www/html/index.php
+		echo " <?php phpinfo(); ?>" >> /tmp/www/html/index.php
+		echo " </body>" >> /tmp/www/html/index.php
+		echo "</html>" >> /tmp/www/html/index.php
 
-	/usr/bin/apachectl -k start
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
+		/usr/bin/apachectl -k start
+		[ $? = 0 ] && echo "OK" || echo "FAIL"
+	fi
 }
 
 stop() {
-	printf "Stopping apache ... "
-	/usr/bin/apachectl -k stop
-	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	if [ -f /usr/bin/apachectl ]; then
+		printf "Stopping apache ... "
+		/usr/bin/apachectl -k stop
+		[ $? = 0 ] && echo "OK" || echo "FAIL"
+	fi
 }
 
 restart() {

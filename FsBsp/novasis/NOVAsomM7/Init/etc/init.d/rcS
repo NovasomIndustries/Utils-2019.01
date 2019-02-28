@@ -4,26 +4,37 @@ mount /dev/mmcblk0p4 /mnt
 if [ -d /mnt/application_storage ]; then
 	cp -r /mnt/application_storage /tmp/.
 fi
-if [ -d /mnt/sysconfig ]; then
-	# If the file REINIT_VARS is present remove 
-	#  all saved and restart with default values
-	if [ -f /mnt/sysconfig/REINIT_VARS ]; then
+if [ -d /mnt/sysconfig/etc ]; then
+	if [ -f /etc/sysconfig/filesystem_name ]; then
+		if [ -f /mnt/sysconfig/etc/sysconfig/filesystem_name ]; then
+			. /mnt/sysconfig/etc/sysconfig/filesystem_name
+			STORED=${FILE_SYSTEM_NAME}
+			. /etc/sysconfig/filesystem_name
+			if [ ${STORED} == ${FILE_SYSTEM_NAME} ]; then
+				cp -a /mnt/sysconfig/etc /
+			else
+				echo "permanent storage updated" > /tmp/fs_status
+				rm -rf /mnt/sysconfig
+				mkdir /mnt/sysconfig
+				cp -a /etc /mnt/sysconfig/.
+				cp -a /root /mnt/sysconfig/.
+			fi
+		else
+			cp -a /etc /mnt/sysconfig/.
+			cp -a /root /mnt/sysconfig/.
+		fi
+	else
 		cp -a /etc /mnt/sysconfig/.
 		cp -a /root /mnt/sysconfig/.
-		rm /mnt/sysconfig/REINIT_VARS
-	else
-		if [ -d /mnt/sysconfig/etc ]; then
-			cp -a /mnt/sysconfig/etc /
-		fi
-
-		if [ -d /mnt/sysconfig/root ]; then
-			cp -a /mnt/sysconfig/root /
-			cp -a /mnt/sysconfig/root /
-		fi
 	fi
 else
 	mkdir /mnt/sysconfig
 	cp -a /etc /mnt/sysconfig/.
+fi
+
+if [ -d /mnt/sysconfig/root ]; then
+	cp -a /mnt/sysconfig/root /
+else
 	cp -a /root /mnt/sysconfig/.
 fi
 umount /mnt
