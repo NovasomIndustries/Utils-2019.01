@@ -29,7 +29,7 @@ if ! [ -f ../../Deploy/uInitrd ]; then
 	echo "1" > /tmp/result
 	exit 1
 fi
-[ "${DISK}" == "" ] && DISK="/dev/sdb"
+[ "${DISK}" = "" ] && DISK="/dev/sdb"
 echo -n "Creating basic structure on ${DISK} ... "
 sudo sgdisk -Z ${DISK} > /dev/null 2>&1
 sudo partprobe ${DISK} > /dev/null 2>&1
@@ -41,8 +41,8 @@ sudo sgdisk -n 2::+4M  -c 2:loader2 ${DISK}  > /dev/null 2>&1
 sudo sgdisk -n 3::+4M  -c 3:trust ${DISK}  > /dev/null 2>&1
 sudo sgdisk -n 8::+512M -c 8:M7Boot ${DISK}  > /dev/null 2>&1
 sudo sgdisk -n 4::+16M -c 4:config ${DISK}  > /dev/null 2>&1
-if [ "${USERNUM}" == "1" ]; then
-	if [ "${SIZE1}" == "0" ]; then
+if [ "${USERNUM}" = "1" ]; then
+	if [ "${SIZE1}" = "0" ]; then
 		sudo sgdisk -n 5::      -c 5:user1 ${DISK}  > /dev/null 2>&1
 	else
 		sudo sgdisk -n 5::+${SIZE1}M     -c 5:user1 ${DISK}  > /dev/null 2>&1
@@ -50,9 +50,9 @@ if [ "${USERNUM}" == "1" ]; then
 
 fi
 P6DONE="0"
-if [ "${USERNUM}" == "2" ]; then
-	if [ "${SIZE1}" == "0" ]; then
-		if ! [ "${SIZE2}" == "0" ]; then
+if [ "${USERNUM}" = "2" ]; then
+	if [ "${SIZE1}" = "0" ]; then
+		if ! [ "${SIZE2}" = "0" ]; then
 			sudo sgdisk -n 6::+${SIZE2}M      -c 6:user2 ${DISK}  > /dev/null 2>&1
 			P6DONE="1"
 		fi
@@ -60,8 +60,8 @@ if [ "${USERNUM}" == "2" ]; then
 	else
 		sudo sgdisk -n 5::+${SIZE1}M      -c 5:user1 ${DISK}  > /dev/null 2>&1
 	fi
-	if [ "${P6DONE}" == "0" ]; then
-		if [ "${SIZE2}" == "0" ]; then
+	if [ "${P6DONE}" = "0" ]; then
+		if [ "${SIZE2}" = "0" ]; then
 			sudo sgdisk -n 6::      -c 6:user2 ${DISK}  > /dev/null 2>&1
 		else
 			sudo sgdisk -n 6::+${SIZE2}M      -c 6:user2 ${DISK}  > /dev/null 2>&1
@@ -83,12 +83,12 @@ echo "Done"
 echo -n "Formatting and populating partition 4... "
 yes | sudo mkfs.ext4 ${DISK}4
 echo "Done"
-if [ "${USERNUM}" == "1" ]; then
+if [ "${USERNUM}" = "1" ]; then
 	echo -n "Formatting and populating partition 5... "
 	yes | sudo mkfs.ext4 ${DISK}5
 	echo "Done"
 fi
-if [ "${USERNUM}" == "2" ]; then
+if [ "${USERNUM}" = "2" ]; then
 	echo -n "Formatting and populating partition 5... "
 	yes | sudo mkfs.ext4 ${DISK}5
 	echo "Done"

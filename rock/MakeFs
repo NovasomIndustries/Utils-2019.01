@@ -26,7 +26,7 @@ FS_COMPILED="0"
 [ -d output/target/lib ] && FS_COMPILED="1"
 
 # install module before make if file system is present AND kernel is present
-if [ "${FS_COMPILED}" == "1" ]; then
+if [ "${FS_COMPILED}" = "1" ]; then
 	if [ -f ${KERNEL_PATH}/arch/arm64/boot/Image ]; then
 		cd ${HERE}
 		./modules_install ${KERNEL_PATH}  ${FILESYSTEM_PATH} SourceMe64

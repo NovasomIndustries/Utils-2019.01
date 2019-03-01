@@ -51,6 +51,6 @@ done
 echo " "
 echo "Checked       = ${CHECKED_REPO}"
 echo "To be updated = ${TO_BE_UPDATED}"
-! [ "${REPO_TO_UPDATE}" == "" ] && echo $REPO_TO_UPDATE
+! [ "${REPO_TO_UPDATE}" = "" ] && echo $REPO_TO_UPDATE
 exit $TO_BE_UPDATED
 

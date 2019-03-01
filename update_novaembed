@@ -37,7 +37,7 @@ echo -n "Working on NOVAembed ... "
 cd /Devel/NOVAsdk${VERSION}/Qt/NOVAembed-${VERSION}
 git pull --dry-run 2> ../res
 cat ../res | grep master
-if [ "$?" == "0" ]; then
+if [ "$?" = "0" ]; then
 	cd ..
 	rm -rf *
 	novaembed
