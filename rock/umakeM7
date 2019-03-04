@@ -9,6 +9,7 @@ make distclean
 make mrproper
 [ "$?" != "0" ] && exit
 ./make.sh rk3328
+[ "$?" != "0" ] && exit
 cp ${HERE}/rkbin/rk322xh_miniloader_v2.46.bin .
 cp ${HERE}/rkbin/rk3328_ddr_333MHz_v1.13.bin .
 ./do_idbloader.sh
@@ -17,4 +18,8 @@ cp idbloader.img ../../Blobs/m7-idbloader.img
 cp uboot.img ../../Blobs//m7-uboot.img
 cp trust.img ../../Blobs/m7-trust.img
 cd ../../Deploy
+rm m7-idbloader.img m7-uboot.img m7-trust.img
+ln -s ../Blobs/m7-idbloader.img
+ln -s ../Blobs//m7-uboot.img
+ln -s ../Blobs/m7-trust.img
 echo "0" > /tmp/result

@@ -110,6 +110,7 @@ sudo cp ../../Deploy/*.config mdisk/.
 echo "setramsize=setenv rdsize ${RAMDISK_SIZE}" > /tmp/NOVAsomParams_Local
 cat NOVAsomParams_M7 >> /tmp/NOVAsomParams_Local
 sudo cp /tmp/NOVAsomParams_Local mdisk/NOVAsomParams
+sudo cp /tmp/NOVAsomParams_Local ../../Deploy/NOVAsomParams
 sudo umount mdisk
 sync
 echo "Done."
