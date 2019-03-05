@@ -8,12 +8,12 @@ ROCKCHIP_MODULES_VERSION = 1.0.0
 ROCKCHIP_MODULES_SITE_METHOD = local
 ROCKCHIP_MODULES_SITE = $(TOPDIR)/package/rockchip/rockchip_modules/src
 
-ROCKCHIP_MODULES_EXT4_PATH = $(TOPDIR)/../../Kernel/linux-4.4.126_M7/fs/ext4/ext4.ko
-ROCKCHIP_MODULES_JBD2_PATH = $(TOPDIR)/../../Kernel/linux-4.4.126_M7/fs/jbd2/jbd2.ko
-ROCKCHIP_MODULES_MBCACHE2_PATH = $(TOPDIR)/../../Kernel/linux-4.4.126_M7/fs/mbcache2.ko
-ROCKCHIP_MODULES_FAT_PATH = $(TOPDIR)/../../Kernel/linux-4.4.126_M7/fs/fat/fat.ko
-ROCKCHIP_MODULES_VFAT_PATH = $(TOPDIR)/../../Kernel/linux-4.4.126_M7/fs/fat/vfat.ko
-ROCKCHIP_MODULES_NTFS_PATH = $(TOPDIR)/../../Kernel/linux-4.4.126_M7/fs/ntfs/ntfs.ko
+ROCKCHIP_MODULES_EXT4_PATH = $(TOPDIR)/../../Kernel/linux-4.4.167_M7/fs/ext4/ext4.ko
+ROCKCHIP_MODULES_JBD2_PATH = $(TOPDIR)/../../Kernel/linux-4.4.167_M7/fs/jbd2/jbd2.ko
+ROCKCHIP_MODULES_MBCACHE2_PATH = $(TOPDIR)/../../Kernel/linux-4.4.167_M7/fs/mbcache2.ko
+ROCKCHIP_MODULES_FAT_PATH = $(TOPDIR)/../../Kernel/linux-4.4.167_M7/fs/fat/fat.ko
+ROCKCHIP_MODULES_VFAT_PATH = $(TOPDIR)/../../Kernel/linux-4.4.167_M7/fs/fat/vfat.ko
+ROCKCHIP_MODULES_NTFS_PATH = $(TOPDIR)/../../Kernel/linux-4.4.167_M7/fs/ntfs/ntfs.ko
 
 ifeq ($(BR2_PACKAGE_ROCKCHIP_MODULES_EXT4),y)
 define ROCKCHIP_MODULES_INSTALL_TARGET_CMDS

@@ -8,7 +8,7 @@ RKWIFIBT_VERSION = 1.0.0
 RKWIFIBT_SITE_METHOD = local
 RKWIFIBT_SITE = $(TOPDIR)/../../Utils/rock/external/rkwifibt
 
-RKWIFIBT_MODULES_PATH = $(TOPDIR)/../../Kernel/linux-4.4.126_M7/drivers/net/wireless/rockchip_wlan
+RKWIFIBT_MODULES_PATH = $(TOPDIR)/../../Kernel/linux-4.4.167_M7/drivers/net/wireless/rockchip_wlan
 BT_TTY_DEV = $(call qstrip,$(BR2_PACKAGE_RKWIFIBT_BTUART))
 
 ifeq ($(BR2_PACKAGE_RKWIFIBT_AP6181),y)
@@ -83,7 +83,7 @@ ifeq ($(CHIP_NAME), RTL8723DS)
 ifeq ($(call qstrip,$(BR2_ARCH)),aarch64)
 define RKWIFIBT_BUILD_CMDS
     $(MAKE) -C $(@D)/realtek/rtk_hciattach/ CC=$(TARGET_CC)
-    $(TARGET_CONFIGURE_OPTS) $(MAKE) -C $(TOPDIR)/../../Kernel/linux-4.4.126_M7/ M=$(@D)/realtek/bluetooth_uart_driver ARCH=arm64 \
+    $(TARGET_CONFIGURE_OPTS) $(MAKE) -C $(TOPDIR)/../../Kernel/linux-4.4.167_M7/ M=$(@D)/realtek/bluetooth_uart_driver ARCH=arm64 \
             CROSS_COMPILE=$(TOPDIR)/../../Xcompiler/aarch64-arm-gcc-6.4.0/bin/aarch64-linux-
 endef
 endif
@@ -91,7 +91,7 @@ endif
 ifeq ($(call qstrip,$(BR2_ARCH)),arm)
 define RKWIFIBT_BUILD_CMDS
     $(MAKE) -C $(@D)/realtek/rtk_hciattach/ CC=$(TARGET_CC)
-    $(TARGET_CONFIGURE_OPTS) $(MAKE) -C $(TOPDIR)/../../Kernel/linux-4.4.126_M7/ M=$(@D)/realtek/bluetooth_uart_driver ARCH=arm \
+    $(TARGET_CONFIGURE_OPTS) $(MAKE) -C $(TOPDIR)/../../Kernel/linux-4.4.167_M7/ M=$(@D)/realtek/bluetooth_uart_driver ARCH=arm \
             CROSS_COMPILE=$(TOPDIR)/../../Xcompiler/aarch64-arm-gcc-6.4.0/bin/aarch64-linux-
 endef
 endif
@@ -160,8 +160,8 @@ define RKWIFIBT_BUILD_CMDS
     $(TARGET_CC) -o $(@D)/src/rk_wifi_init $(@D)/src/rk_wifi_init.c
     $(TARGET_CC) -o $(@D)/brcm_tools/brcm_patchram_plus1 $(@D)/brcm_tools/brcm_patchram_plus1.c
     mkdir -p $(TARGET_DIR)/system/lib/modules/
-    make -C $(TOPDIR)/../../Kernel/linux-4.4.126_M7 ARCH=$(TARGET_ARCH)  modules -j18 CROSS_COMPILE=$(TOPDIR)/../../Xcompiler/aarch64-arm-gcc-6.4.0/bin/aarch64-linux-
-    find $(TOPDIR)/../../Kernel/linux-4.4.126_M7/drivers/net/wireless/rockchip_wlan/*  -name "*.ko" | \
+    make -C $(TOPDIR)/../../Kernel/linux-4.4.167_M7 ARCH=$(TARGET_ARCH)  modules -j18 CROSS_COMPILE=$(TOPDIR)/../../Xcompiler/aarch64-arm-gcc-6.4.0/bin/aarch64-linux-
+    find $(TOPDIR)/../../Kernel/linux-4.4.167_M7/drivers/net/wireless/rockchip_wlan/*  -name "*.ko" | \
     xargs -n1 -i cp {} $(TARGET_DIR)/system/lib/modules/
 endef
 

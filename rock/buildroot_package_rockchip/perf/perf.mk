@@ -11,7 +11,7 @@ else
 PERF_ARCH=$(call qstrip,$(BR2_ARCH))
 endif
 
-RK_KERNEL_DIR = $(TOPDIR)/../../Kernel/linux-4.4.126_M7
+RK_KERNEL_DIR = $(TOPDIR)/../../Kernel/linux-4.4.167_M7
 
 
 PERF_MAKE_FLAGS = \
