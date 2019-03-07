@@ -12,6 +12,10 @@ for i in ${UPD_ELEMENTS}; do
 	if [ -d ${i} ]; then
 		cd ${i}
 		echo -n "Working on ${i} ... "
+		# u-boot was stopped during build, so .git has been shadowed from git. re push in place.
+                if [ -d gitb.git ]; then
+                        mv gitb.git .git
+                fi
 		git pull
 		make distclean
 	fi
