@@ -4,13 +4,12 @@
 DISK=${2}
 
 
-echo "1" > /tmp/result
 sync
 sudo rm -rf /tmp/tmpmount
 sudo mkdir /tmp/tmpmount
 sleep 1
-sudo mount ${DISK}3 /tmp/tmpmount
-[ "$?" != "0" ] && exit
+sudo mount ${DISK}4 /tmp/tmpmount
+[ "$?" != "0" ] && return 1
 sudo rm -rf /tmp/tmpmount/application_storage
 sudo mkdir /tmp/tmpmount/application_storage
 echo -n "Copying application_storage ..."
@@ -18,4 +17,7 @@ sudo cp ${1}/* /tmp/tmpmount/application_storage/.
 echo "Done"
 sudo umount /tmp/tmpmount
 sync
+
 echo "0" > /tmp/result
+echo "application_storage stored succesfully"
+exit 0

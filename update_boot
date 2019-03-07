@@ -13,6 +13,7 @@ for i in ${UPD_ELEMENTS}; do
 		cd ${i}
 		echo -n "Working on ${i} ... "
 		git pull
+		make distclean
 	fi
 	cd ${HERE}
 done

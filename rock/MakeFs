@@ -7,6 +7,7 @@
 echo "1" > /tmp/result
 HERE="/Devel/NOVAsdk${VERSION}/Utils/rock"
 PREPEND_PATH="/Devel/NOVAsdk${VERSION}/FileSystem"
+DEPLOY_PATH="/Devel/NOVAsdk${VERSION}/Deploy"
 FSNAME=$1
 IP=$2
 KERNEL=$3
@@ -48,5 +49,7 @@ else
 		[ "$?" != "0" ] && exit
 	fi
 fi
+rm ${DEPLOY_PATH}/*.buildroot.config
+cp ${PREPEND_PATH}/${FSNAME}/.config ${DEPLOY_PATH}/${FSNAME}.buildroot.config
 
 echo "0" > /tmp/result

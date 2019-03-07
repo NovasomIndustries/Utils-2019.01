@@ -18,6 +18,7 @@ for i in ${UPD_ELEMENTS}; do
 			mv gitb.git .git
 		fi
 		git pull
+		make distclean ; make mrproper
 	fi
 	cd ${HERE}
 done
