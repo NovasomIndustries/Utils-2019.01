@@ -1,14 +1,18 @@
 #!/bin/sh
 DISK="/dev/mmcblk2"
-get_exec m7-idbloader.img
-get_exec m7-uboot.img
-get_exec m7-trust.img
-get_exec m7_dtb.dtb
-get_exec m7_Image
-get_exec uInitrd
-get_exec NOVAsomParams
+FILES="m7-idbloader.img m7-uboot.img m7-trust.img m7_dtb.dtb m7_Image uInitrd NOVAsomParams"
+for i in ${FILES}; do
+	get_exec ${i}
+done
 
 cd /tmp
+for i in ${FILES}; do
+	if ! [ -f ${i} ]; then
+		echo "${i} is missing. Givin' up"
+		exit
+	fi
+done
+
 dd if=m7-idbloader.img of=${DISK} seek=64 conv=notrunc
 dd if=m7-uboot.img of=${DISK} seek=16384 conv=notrunc
 dd if=m7-trust.img of=${DISK} seek=24576 conv=notrunc
