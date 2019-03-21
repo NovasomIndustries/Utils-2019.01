@@ -6,7 +6,6 @@
 KERNEL=$1
 SOURCEMEFILE=$2
 CONFIG_FILE=$3
-LAYERSCAPE="linux-4.14.47_layerscape"
 
 cleanup_and_configure() {
 	echo "Cleanup"
@@ -35,21 +34,8 @@ if [ "$KERNEL" = "linux-imx_4.1.15_1.2.0_ga" ]; then
 	cd ..
 	cp arch/arm/boot/zImage ../../Blobs/linux-nxp_p-4.1.15.2_zImage
 	cd ../../Deploy
-	rm p_zImage
-	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image p_zImage
-elif [ "$KERNEL" = "$LAYERSCAPE" ]; then
-	! [ -z "${CONFIG_FILE}" ] && cleanup_and_configure
-	make -j32 Image
-	[ ! "$?" = "0" ] && exit
-	make -j32 modules
-	[ ! "$?" = "0" ] && exit
-	make novasis/NOVAsom_N1.dtb
-	cp arch/arm64/boot/Image ../../Blobs/linux-nxp-n1-4.14.47_Image
-	cp arch/arm64/boot/dts/novasis/NOVAsom_N1.dtb ../../Blobs/.
-	cd ../../Deploy
-	rm n1_Image NOVAsom_N1.dtb
-	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image n1_Image
-	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/dts/novasis/NOVAsom_N1.dtb NOVAsom_N1.dtb
+	rm P_zImage
+	ln -s ../Kernel/${KERNEL}/arch/arm/boot/zImage P_zImage
 else
 	! [ -z "${CONFIG_FILE}" ] && cleanup_and_configure
 	make -j32 zImage
@@ -58,7 +44,7 @@ else
 	[ ! "$?" = "0" ] && exit
 	cp arch/arm/boot/zImage ../../Blobs/linux-nxp_u-4.1.43_zImage
 	cd ../../Deploy
-	rm u_Image
-	ln -s ../Kernel/${KERNEL}/arch/arm64/boot/Image u_uImage
+	rm U_uImage
+	ln -s ../Kernel/${KERNEL}/arch/arm/boot/Image U_uImage
 fi
 echo "0" > /tmp/result
