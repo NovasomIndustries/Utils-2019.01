@@ -98,7 +98,7 @@ for i in ${FILESTOPATCH}; do
 	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/.
 done
 #Patches for qt5
-FILESTOPATCH="qt-webkit-kiosk"
+FILESTOPATCH="qt5webkit"
 for i in ${FILESTOPATCH}; do
 	rm -rf package/qt5/${i}
 	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/qt5/.
