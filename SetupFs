@@ -92,10 +92,16 @@ cp /Devel/NOVAsdk${VERSION}/Utils/Configurations/${BUSYBOX_CFG_BASE} BusyBox.con
 # This is for M7 only END
 
 # Patches, standard files
-FILESTOPATCH="apache ffmpeg  icu  mariadb  qt-webkit-kiosk  rtl8723bs_bt qt5webkit"
+FILESTOPATCH="apache ffmpeg  icu  mariadb  qt-webkit-kiosk  rtl8723bs_bt"
 for i in ${FILESTOPATCH}; do
 	rm -rf package/${i}
 	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/.
+done
+#Patches for qt5
+FILESTOPATCH="qt-webkit-kiosk"
+for i in ${FILESTOPATCH}; do
+	rm -rf package/qt5/${i}
+	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/qt5/.
 done
 # Patches, rockchip files
 FILESTOPATCH="gst1-libav-rk"
