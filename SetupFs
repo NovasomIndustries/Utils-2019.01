@@ -97,12 +97,6 @@ for i in ${FILESTOPATCH}; do
 	rm -rf package/${i}
 	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/.
 done
-#Patches for qt5
-FILESTOPATCH="qt5webkit"
-for i in ${FILESTOPATCH}; do
-	rm -rf package/qt5/${i}
-	cp -r /Devel/NOVAsdk${VERSION}/Utils/Patches/${i} package/qt5/.
-done
 # Patches, rockchip files
 FILESTOPATCH="gst1-libav-rk"
 if [ "$IS_M7" = "1" ]; then
