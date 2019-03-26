@@ -20,6 +20,8 @@ fi
 umount /mnt
 cat /etc/passwd | grep sshd  >/dev/null 2>&1
 [ "$?" = "1" ] &&  echo "sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin" >> /etc/passwd
+# sets a temporary password for root
+echo -e "password\npassword" | passwd
 
 umask 077
 
