@@ -44,7 +44,7 @@ else
 	[ ! "$?" = "0" ] && exit
 	cp arch/arm/boot/zImage ../../Blobs/linux-nxp_u-4.1.43_zImage
 	cd ../../Deploy
-	rm U_uImage
-	ln -s ../Kernel/${KERNEL}/arch/arm/boot/Image U_uImage
+	rm U_zImage
+	ln -s ../Kernel/${KERNEL}/arch/arm/boot/Image U_zImage
 fi
 echo "0" > /tmp/result
