@@ -20,6 +20,7 @@ echo "**** Assigned IP      : $2 ****"
 echo "**** Kernel           : $3 ****"
 echo "*******************************"
 cd ${PREPEND_PATH}/${FSNAME}
+cp -r /Devel/NOVAsdk${VERSION}/Utils/FsBsp/novasis/NOVAsomM7/Init/* board/novasis/NOVAsomM7/Init/.
 echo "REFERENCE_SERVER=${2}" > board/novasis/NOVAsomM7/Init/etc/sysconfig/system_vars
 echo "1" > /tmp/result
 
