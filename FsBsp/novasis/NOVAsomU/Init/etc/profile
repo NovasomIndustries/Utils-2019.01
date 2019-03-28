@@ -27,3 +27,4 @@ for i in /etc/profile.d/*.sh ; do
 	fi
 	unset i
 done
+export NODE_PATH=/usr/lib/node_modules
