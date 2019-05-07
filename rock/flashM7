@@ -118,8 +118,8 @@ sudo cp ${DEPLOYDIR}/m7_dtb.dtb mdisk/dtb.dtb
 sudo cp ${DEPLOYDIR}/uInitrd mdisk/.
 sudo cp ${DEPLOYDIR}/*.config mdisk/.
 cat NOVAsomParams_M7 > /tmp/NOVAsomParams_Local
+cp /tmp/NOVAsomParams_Local ${DEPLOYDIR}/NOVAsomParams
 sudo cp /tmp/NOVAsomParams_Local mdisk/NOVAsomParams
-sudo cp /tmp/NOVAsomParams_Local ${DEPLOYDIR}/NOVAsomParams
 sudo umount mdisk
 sync
 echo "Done."
